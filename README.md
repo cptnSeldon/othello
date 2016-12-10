@@ -1,0 +1,2 @@
+# othello
+C# application
