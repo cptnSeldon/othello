@@ -5,8 +5,92 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Othello"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="600" Width="800">
+    <!-- MAIN PROGRAM -->
+    <StackPanel Name="main_panel">
+        <!-- MENU : main panel  : vertical -->
+        <StackPanel Name="m_main_panel" Height="20" VerticalAlignment="Top" Background="LightBlue"/>
+        <!-- BLACK : main panel : vertical -->
+        <StackPanel Name="d_main_panel" Height="70
+                    " VerticalAlignment="Top" Background="LightCoral"/>
+        <!-- BOARD : main panel : vertical -->
+        <StackPanel Name="b_main_panel" Height="410" VerticalAlignment="Top" Background="Green">
+            <!-- BOARD : grid -->
+            <UniformGrid Name="board_grid" Columns="8" Rows="8" Height="400" Width="400" Background="LightGray" Margin="10">
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+                <Label Background="LightBlue"></Label>
+                <Label Background="LemonChiffon"></Label>
+            </UniformGrid>
+        </StackPanel> 
+        <!-- WHITE : main panel : vertical -->
+        <StackPanel Name="w_main_panel" Height="70" VerticalAlignment="Top" Background="Red"/>
+    </StackPanel>
 </Window>
