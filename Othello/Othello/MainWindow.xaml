@@ -5,18 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Othello"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="MainWindow" Height="600" Width="800" Background="Black">
     <!-- MAIN PROGRAM -->
-    <StackPanel Name="main_panel">
+    <StackPanel Name="main_panel" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Black">
         <!-- MENU : main panel  : vertical -->
-        <StackPanel Name="m_main_panel" Height="20" VerticalAlignment="Top" Background="LightBlue"/>
+        <StackPanel Name="m_main_panel" Height="30" VerticalAlignment="Top" Background="Black"/>
         <!-- BLACK : main panel : vertical -->
-        <StackPanel Name="d_main_panel" Height="70
-                    " VerticalAlignment="Top" Background="LightCoral"/>
+        <StackPanel Name="b_main_panel" Height="70" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top" Background="Black">
+            <StackPanel Name="b_info" Height="70" Width="300" Orientation="Horizontal" HorizontalAlignment="Left" Background="Gray">
+                <StackPanel Name="b_chrono" Height="35" Width="300" Orientation="Vertical" VerticalAlignment="Top" Background="MediumAquamarine"/>
+                <StackPanel Name="b_score" Height="35" Width="300" Orientation="Vertical" VerticalAlignment="Top" Background="MediumSeaGreen"/>
+            </StackPanel>
+            <StackPanel Name="b_discs" Height="70" Width="500" Orientation="Horizontal" HorizontalAlignment="Right" Background="LightGray"/>
+        </StackPanel>
         <!-- BOARD : main panel : vertical -->
-        <StackPanel Name="b_main_panel" Height="410" VerticalAlignment="Top" Background="Green">
+        <StackPanel Name="bo_main_panel" Height="400" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Black">
             <!-- BOARD : grid -->
-            <UniformGrid Name="board_grid" Columns="8" Rows="8" Height="400" Width="400" Background="LightGray" Margin="10">
+            <UniformGrid Name="board_grid" Columns="8" Rows="8" Height="375" Width="375" 
+                         HorizontalAlignment="Center" Background="LightGray" Margin="5">
                 <Label Background="LemonChiffon"></Label>
                 <Label Background="LightBlue"></Label>
                 <Label Background="LemonChiffon"></Label>
@@ -91,6 +97,12 @@
             </UniformGrid>
         </StackPanel> 
         <!-- WHITE : main panel : vertical -->
-        <StackPanel Name="w_main_panel" Height="70" VerticalAlignment="Top" Background="Red"/>
+        <StackPanel Name="w_main_panel" Height="70" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Black">
+            <StackPanel Name="w_discs" Height="70" Width="500" Orientation="Horizontal" HorizontalAlignment="Right" Background="LightGray"/>
+            <StackPanel Name="w_info" Height="70" Width="300" Orientation="Horizontal" HorizontalAlignment="Left" Background="Gray">
+                <StackPanel Name="w_chrono" Height="35" Width="300" Orientation="Vertical" VerticalAlignment="Top" Background="MediumAquamarine"/>
+                <StackPanel Name="w_score" Height="35" Width="300" Orientation="Vertical" VerticalAlignment="Top" Background="MediumSeaGreen"/>
+            </StackPanel>
+        </StackPanel>
     </StackPanel>
 </Window>
