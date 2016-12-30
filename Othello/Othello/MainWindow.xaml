@@ -12,15 +12,19 @@
         <StackPanel Name="m_main_panel" Height="30" VerticalAlignment="Top" Background="Black"/>
         <!-- BLACK : main panel : vertical -->
         <StackPanel Name="b_main_panel" Height="70" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top" Background="Black">
+            <!-- INFORMATION : chrono + score -->
             <StackPanel Name="b_info" Height="70" Width="300" Orientation="Horizontal" HorizontalAlignment="Left" Background="Gray">
+                <!-- chrono -->
                 <StackPanel Name="b_chrono" Height="35" Width="300" Orientation="Vertical" VerticalAlignment="Top" Background="MediumAquamarine"/>
+                <!-- score : BINDing needed -->
                 <StackPanel Name="b_score" Height="35" Width="300" Orientation="Vertical" VerticalAlignment="Top" Background="MediumSeaGreen"/>
             </StackPanel>
+            <!-- discs : BINDing needed : max 32 discs -->
             <StackPanel Name="b_discs" Height="70" Width="500" Orientation="Horizontal" HorizontalAlignment="Right" Background="LightGray"/>
         </StackPanel>
         <!-- BOARD : main panel : vertical -->
         <StackPanel Name="bo_main_panel" Height="400" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Black">
-            <!-- BOARD : grid -->
+            <!-- BOARD : grid : BINDing needed -->
             <UniformGrid Name="board_grid" Columns="8" Rows="8" Height="375" Width="375" 
                          HorizontalAlignment="Center" Background="LightGray" Margin="5">
                 <Label Background="LemonChiffon"></Label>
@@ -98,9 +102,13 @@
         </StackPanel> 
         <!-- WHITE : main panel : vertical -->
         <StackPanel Name="w_main_panel" Height="70" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Black">
+            <!-- discs : BINDing needed : max 32 discs -->
             <StackPanel Name="w_discs" Height="70" Width="500" Orientation="Horizontal" HorizontalAlignment="Right" Background="LightGray"/>
+            <!-- INFORMATION : chrono + score -->
             <StackPanel Name="w_info" Height="70" Width="300" Orientation="Horizontal" HorizontalAlignment="Left" Background="Gray">
+                <!-- chrono -->
                 <StackPanel Name="w_chrono" Height="35" Width="300" Orientation="Vertical" VerticalAlignment="Top" Background="MediumAquamarine"/>
+                <!-- score : BINDing needed -->
                 <StackPanel Name="w_score" Height="35" Width="300" Orientation="Vertical" VerticalAlignment="Top" Background="MediumSeaGreen"/>
             </StackPanel>
         </StackPanel>

@@ -1,0 +1,91 @@
+/************************************
+ * 		C# - Othello - skeleton		*
+ ************************************/
+ 
+ Specs : 
+	
+	1. Initialization => GameState : Init (default)
+	
+		1.1 Board + UI
+		-> discs : initial position
+		
+		1.2 Player + UI
+		-> discs : full panel
+		-> chrono : 0
+		-> score : 0
+	
+	2. In game => GameState : Black_turn (default)
+		=> GameState changes after each placement /
+			if the player has no valid placement possibility
+		
+		2.1 UI + Player
+			-> update : condition -> valid placement
+				-> discs (when disc has been placed)
+				-> chrono (start - stop)
+				-> score (when disc has been placed) 
+		
+		2.2 Board
+			-> update grid (valid, unvalid, black_turn, white_turn)
+	
+	3. End of game => GameState : game_end (default)
+		
+		3.1 UI
+			-> message : x wins the party
+			
+		3.2 Board
+			-> no more update 
+		
+		3.3 Player
+			-> no more move allowed 
+		
+	=> go back to Init if restart / quit game if Quit
+ 
+ Classes : 
+ 
+	# UI	
+		-> GRAPHICS: 
+			-> board
+				-> normal
+				-> highlighted (?) 
+			-> panels (background)
+				-> black : info
+				-> white : info
+				-> menu
+			-> discs (on board)
+				-> white
+				-> black
+				-> highlighted (?)
+			-> discs (in panel)
+			
+		-> METHODS
+			-> update all (a method for each element)
+ 
+	# Game
+		-> enum GameState : init,
+							black_turn
+							white_turn
+							game_end
+							quit
+ 
+	# Board
+		-> ATTRIBUTES
+			-> enum State :	valid, 
+							unvalid, 
+							taken_white, 
+							taken_black
+							
+			-> array 2D : grid State
+			
+		-> METHODS
+			-> change state : triggered by an event
+			-> update : available "coup"
+	
+	# Player
+		-> ATTRIBUTES
+			-> score
+			-> chrono
+			
+		-> METHODS
+			-> getter/setter
+			-> update
+	
