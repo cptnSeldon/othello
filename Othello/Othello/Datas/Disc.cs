@@ -3,19 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Controls;
 
 namespace Othello
 {
-    class Disc
+    // is notified when its state has to be changed
+    public class Disc : Label   // contains an image
     {
-        private Colors colors;
-
-        public Colors Colors
-                {
-                    get { return colors; }
-                    set { colors = value; }
-                }
+        // the image is changed according to disc's state
 
         /*
                 // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...

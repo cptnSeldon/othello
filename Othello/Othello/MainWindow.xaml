@@ -9,7 +9,7 @@
     <!-- MAIN PROGRAM -->
     <StackPanel Name="main_panel" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Black">
         <!-- MENU : main panel  : vertical -->
-        <StackPanel Name="m_main_panel" Height="30" VerticalAlignment="Top" Background="Black"/>
+        <StackPanel Name="menu_main_panel" Height="30" VerticalAlignment="Top" Background="Black"/>
         <!-- BLACK : main panel : vertical -->
         <StackPanel Name="b_main_panel" Height="70" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top" Background="Black">
             <!-- INFORMATION : chrono + score -->
@@ -20,90 +20,70 @@
                 <StackPanel Name="b_score" Height="35" Width="300" Orientation="Vertical" VerticalAlignment="Top" Background="MediumSeaGreen"/>
             </StackPanel>
             <!-- discs : BINDing needed : max 32 discs -->
-            <StackPanel Name="b_discs" Height="70" Width="500" Orientation="Horizontal" HorizontalAlignment="Right" Background="LightGray"/>
+            <StackPanel Name="b_discs" Height="70" Width="320" Orientation="Horizontal" HorizontalAlignment="Right" Background="LightGray">
+                <Image x:Name="disc1" Width="10" Source="Resources/side_disc.png"/>
+                <Image x:Name="disc2" Width="10" Source="Resources/side_disc.png"/>
+                <Image x:Name="disc3" Width="10" Source="Resources/side_disc.png"/>
+                <Image x:Name="disc4" Width="10" Source="Resources/side_disc.png"/>
+                <Image x:Name="disc5" Width="10" Source="Resources/side_disc.png"/>
+            </StackPanel>
         </StackPanel>
         <!-- BOARD : main panel : vertical -->
         <StackPanel Name="bo_main_panel" Height="400" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Black">
             <!-- BOARD : grid : BINDing needed -->
-            <UniformGrid Name="board_grid" Columns="8" Rows="8" Height="375" Width="375" 
-                         HorizontalAlignment="Center" Background="LightGray" Margin="5">
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-                <Label Background="LightBlue"></Label>
-                <Label Background="LemonChiffon"></Label>
-            </UniformGrid>
-        </StackPanel> 
+            <Grid Name="board_grid" Height="375" Width="375" 
+                         HorizontalAlignment="Center" Margin="5">
+                <!-- Columns -->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <!-- Rows -->
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <!-- background image setting -->
+                <Grid.Background>
+                    <ImageBrush ImageSource="Resources/reversi_board.png" Stretch="UniformToFill" TileMode="Tile"/>
+                </Grid.Background>
+                <!-- image test -->
+                <Image x:Name="white1" Grid.Column="3" Grid.Row="3" Source="Resources/white.png"/>
+                <Image x:Name="white2" Grid.Column="4" Grid.Row="4" Source="Resources/white.png"/>
+                <Image x:Name="black1" Grid.Column="3" Grid.Row="4" Source="Resources/black.png"/>
+                <Image x:Name="black2" Grid.Column="4" Grid.Row="3" Source="Resources/black.png"/>
+            </Grid>
+        </StackPanel>
         <!-- WHITE : main panel : vertical -->
         <StackPanel Name="w_main_panel" Height="70" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Black">
             <!-- discs : BINDing needed : max 32 discs -->
-            <StackPanel Name="w_discs" Height="70" Width="500" Orientation="Horizontal" HorizontalAlignment="Right" Background="LightGray"/>
+            <StackPanel Name="w_discs" Height="70" Width="320" Orientation="Horizontal" HorizontalAlignment="Right" Background="LightGray" RenderTransformOrigin="0.5,0.5">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1" ScaleX="1"/>
+                        <SkewTransform AngleY="0" AngleX="0"/>
+                        <RotateTransform Angle="180"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Image x:Name="disc6" Width="10" Source="Resources/side_disc.png"/>
+                <Image x:Name="disc7" Width="10" Source="Resources/side_disc.png"/>
+                <Image x:Name="disc8" Width="10" Source="Resources/side_disc.png"/>
+                <Image x:Name="disc9" Width="10" Source="Resources/side_disc.png"/>
+                <Image x:Name="disc10" Width="10" Source="Resources/side_disc.png"/>
+            </StackPanel>
             <!-- INFORMATION : chrono + score -->
             <StackPanel Name="w_info" Height="70" Width="300" Orientation="Horizontal" HorizontalAlignment="Left" Background="Gray">
                 <!-- chrono -->

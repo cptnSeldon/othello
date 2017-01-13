@@ -11,8 +11,9 @@ using System.Threading.Tasks;
 
 namespace Othello
 {
-    class OthelloEngine
+    //-> game state management : data modification -> notifies UI (update)
+    public class OthelloEngine
     {
-
+        
     }
 }
