@@ -1,5 +1,0 @@
-bool isPlayable(int column, int line, PlayerType player);
-bool playMove(int column, int line, PlayerType player);
-Tuple<char, PlayerType> getNextMove(int[,] game, int level, bool whiteTurn);
-int getWhiteScore();
-int getBlackScore();

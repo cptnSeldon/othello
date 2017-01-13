@@ -12,7 +12,7 @@ namespace Othello
     public enum BoardState { PLAYABLE_BLACK, PLAYABLE_WHITE, HIDDEN, PLACED_BLACK, PLACED_WHITE };  // the grid is populated with states
 
     //each new event notifies data to be changed according to the engine
-    class Data
+    class Data : IPlayable
     {
 
         /************************
@@ -50,5 +50,29 @@ namespace Othello
             
         }
 
+        public bool isPlayable(int column, int line, bool isWhite)
+        {
+            return true;
+        }
+
+        public bool playMove(int column, int line, bool isWhite)
+        {
+            return true;
+        }
+
+        public Tuple<char, int> getNextMove(int[,] game, int level, bool whiteTurn)
+        {
+            return new Tuple<char, int>('a', 1);
+        }
+
+        public int getWhiteScore()
+        {
+            return 0;
+        }
+
+        public int getBlackScore()
+        {
+            return 0;
+        }
     }
 }
