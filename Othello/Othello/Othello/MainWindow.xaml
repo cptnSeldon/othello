@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Othello"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800" Background="Black">
+        Title="MainWindow" Height="600" Width="800">
     <!-- MAIN PROGRAM -->
-    <StackPanel Name="main_panel" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Black">
+    <StackPanel Name="main_panel" HorizontalAlignment="Center" VerticalAlignment="Top">
         <!-- MENU : main panel  : vertical -->
-        <StackPanel Name="menu_main_panel" Height="30" VerticalAlignment="Top" Background="Black"/>
+        <StackPanel Name="menu_main_panel" Height="30" VerticalAlignment="Top"/>
+
         <!-- BLACK : main panel : vertical -->
-        <StackPanel Name="b_main_panel" Height="70" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top" Background="Black">
+        <StackPanel Name="b_main_panel" Height="70" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top">
             <!-- INFORMATION : chrono + score -->
             <StackPanel Name="b_info" Height="70" Width="300" Orientation="Horizontal" HorizontalAlignment="Left" Background="Gray">
                 <!-- chrono -->
@@ -29,7 +30,8 @@
             </StackPanel>
         </StackPanel>
         <!-- BOARD : main panel : vertical -->
-        <StackPanel Name="bo_main_panel" Height="400" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Black">
+        <StackPanel Name="bo_main_panel" Height="400" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
+
             <!-- BOARD : grid : BINDing needed -->
             <Grid Name="board_grid" Height="375" Width="375" 
                          HorizontalAlignment="Center" Margin="5">
