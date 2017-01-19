@@ -12,7 +12,7 @@ namespace Othello
     public enum BoardState { PLAYABLE_BLACK, PLAYABLE_WHITE, HIDDEN, PLACED_BLACK, PLACED_WHITE };  // the grid is populated with states
 
     //each new event notifies data to be changed according to the engine
-    class Data : IPlayable
+    class GameData : IPlayable
     {
 
         /************************
@@ -20,7 +20,11 @@ namespace Othello
          ************************/
 
         //board
-        private Disc[,] board;
+        public BoardState[,] StateArray
+        {
+            get;
+            set;
+        }
         //black
         private int blackScore;
         private int blackRemainingTime;
@@ -35,10 +39,12 @@ namespace Othello
          ************************/
          
         //Initialization
-        public Data()
+        public GameData()
         {
-            //board
-            board = new Disc[8, 8]; // has to be populated with BoardStates
+            //board initialization
+            StateArray = new BoardState[8, 8];
+            FillArray();
+
             //black
             blackScore = 0;
             blackRemainingDiscs = 32;
@@ -48,6 +54,31 @@ namespace Othello
             whiteRemainingDiscs = 32;
             whiteRemainingTime = 1000;
             
+        }
+
+        //Debug test : fill array to random
+        //inside method : fill array
+        private void FillArray()
+        {
+
+            Random random = new Random();
+
+            // random filling
+            for (int row = 0; row < 8; row++)
+            {
+                for (int column = 0; column < 8; column++)
+                {
+                    // <=a < b
+                    int state = random.Next(1, 4);
+
+                    if (state == 1)
+                        StateArray[row, column] = BoardState.PLACED_BLACK;
+                    if (state == 2)
+                        StateArray[row, column] = BoardState.PLACED_WHITE;
+                    if (state == 3)
+                        StateArray[row, column] = BoardState.HIDDEN;
+                }
+            }
         }
 
         public bool isPlayable(int column, int line, bool isWhite)
