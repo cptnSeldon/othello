@@ -45,7 +45,7 @@ namespace Othello
             //grid init
             InitializeGrid();
             //decomment following if in debug mode
-            //InitializeBoard();
+            InitializeBoard();
             UpdateBoard();
         }
 

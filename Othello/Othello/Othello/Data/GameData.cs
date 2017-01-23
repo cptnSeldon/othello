@@ -23,8 +23,8 @@ namespace Othello
         //BOARD
         public BoardState[,] StateArray { get; set; }
         //SCORE
-        private int blackScore;
-        private int whiteScore;
+        public string BlackScoreStr { get; set; }
+        public string WhiteScoreStr { get; set; }
         //PANEL : remaining discs
         public int TotalBlack { get; set; }
         public int TotalWhite { get; set; }
@@ -50,8 +50,8 @@ namespace Othello
             FillArray();
 
             //score initialization
-            blackScore = 0;
-            whiteScore = 0;
+            BlackScoreStr = "2";
+            WhiteScoreStr = "2";
 
             //remaining discs initialization
             TotalBlack = 30;
