@@ -5,24 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Othello"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
-    <Window.Background>
-        <ImageBrush ImageSource="Resources/wooden_back.jpg" />
-    </Window.Background>
+        Title="MainWindow" MinHeight="600" MinWidth="800">
     <!-- MAIN PROGRAM -->
-    <StackPanel x:Name="main_panel" HorizontalAlignment="Center" 
+    <StackPanel x:Name="main_panel" 
                 VerticalAlignment="Top">
         <!-- MENU : main panel  : vertical -->
         <StackPanel x:Name="menu_main_panel" Height="30" 
                     VerticalAlignment="Top"/>
         <!-- BLACK : main panel : vertical -->
-        <StackPanel x:Name="b_main_panel" Height="50" Orientation="Horizontal"  
-                    HorizontalAlignment="Center" VerticalAlignment="Top">
+        <Grid x:Name="b_main_panel" Height="50" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
             <!-- INFORMATION : chrono + score -->
-            <StackPanel x:Name="b_info" Height="50" Width="300" Orientation="Horizontal" 
-                        HorizontalAlignment="Left" Background="Gray">
+            <StackPanel x:Name="b_info" Height="50" 
+                        Grid.Column="0"
+                        Orientation="Vertical" Background="Gray">
                 <!-- CHRONO -->
-                <StackPanel x:Name="b_chrono" Height="25" Width="300" Orientation="Vertical" 
+                <StackPanel x:Name="b_chrono" Height="25" Orientation="Vertical" 
                             VerticalAlignment="Top" Background="MediumAquamarine">
                     <!-- label -->
                     <Label x:Name="black_label" Content="{Binding BlackTimerStr}"
@@ -34,7 +35,7 @@
                     </Label>
                 </StackPanel>
                 <!-- SCORE -->
-                <StackPanel x:Name="b_score" Height="25" Width="300" 
+                <StackPanel x:Name="b_score" Height="25" 
                             Orientation="Vertical" VerticalAlignment="Top" 
                             Background="MediumSeaGreen">
                     <!-- label -->
@@ -48,14 +49,13 @@
                 </StackPanel>
             </StackPanel>
             <!-- REMAINING DISCS -->
-            <StackPanel x:Name="b_discs" Height="50" Width="320" 
-                        Orientation="Horizontal" HorizontalAlignment="Right" 
-                        Background="LightGray">
-            </StackPanel>
-        </StackPanel>
+            <StackPanel x:Name="b_discs" Height="50"
+                        Grid.Column="1"
+                        Orientation="Horizontal" 
+                        Background="LightGray"/>
+        </Grid>
         <!-- BOARD : main panel : vertical -->
-        <StackPanel x:Name="bo_main_panel" Height="400" Orientation="Vertical" 
-                    HorizontalAlignment="Center" VerticalAlignment="Top">
+        <StackPanel x:Name="bo_main_panel" Height="400" Orientation="Vertical">
 
             <!-- BOARD : grid  -->
             <Grid x:Name="board_grid" Height="375" Width="375" 
@@ -67,44 +67,55 @@
             </Grid>
         </StackPanel>
         <!-- WHITE : main panel : vertical -->
-        <StackPanel x:Name="w_main_panel" Height="50" Orientation="Horizontal" 
-                    HorizontalAlignment="Center" VerticalAlignment="Top" 
+        <Grid x:Name="w_main_panel" Height="50" VerticalAlignment="Top" 
                     Background="Black">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
             <!-- REMAINING DISCS -->
-            <StackPanel x:Name="w_discs" Height="50" Width="320" Orientation="Horizontal" 
-                        HorizontalAlignment="Right" Background="LightGray" 
+            <StackPanel x:Name="w_discs" Height="50" 
+                        Grid.Column="0"
+                        Orientation="Horizontal" Background="LightGray" 
                         RenderTransformOrigin="0.5,0.5">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="180"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
 
             </StackPanel>
             <!-- INFORMATION : chrono + score -->
-            <StackPanel x:Name="w_info" Height="50" Width="300" Orientation="Horizontal" 
-                        HorizontalAlignment="Left" Background="Gray">
+            <StackPanel x:Name="w_info" Height="50"
+                        Grid.Column="1"
+                        Orientation="Vertical" Background="Gray">
                 <!-- chrono -->
-                <StackPanel x:Name="w_chrono" Height="25" Width="300" 
+                <StackPanel x:Name="w_chrono" Height="25" 
                             Orientation="Vertical" VerticalAlignment="Top" 
                             Background="MediumAquamarine">
-                    <Label x:Name="white_label" Content="{Binding WhiteTimerStr}"
-                           HorizontalAlignment="Center" VerticalAlignment="Top" 
-                           FontFamily="Consolas" FontSize="20">
+                    <Label x:Name="white_label" Content="{Binding WhiteTimerStr}" VerticalAlignment="Top" 
+                           FontFamily="Consolas" FontSize="20" HorizontalAlignment="Center">
                         <Label.DataContext>
                             <local:GameData/>
                         </Label.DataContext>
                     </Label>
                 </StackPanel>
                 <!-- SCORE -->
-                <StackPanel x:Name="w_score" Height="25" Width="300" Orientation="Vertical" 
+                <StackPanel x:Name="w_score" Height="25" Orientation="Vertical" 
                             VerticalAlignment="Top" 
                             Background="MediumSeaGreen" RenderTransformOrigin="0.5,0.5">
                     <!-- label -->
-                    <Label x:Name="w_score_label" Content="{Binding WhiteScoreStr}"
-                           HorizontalAlignment="Center" VerticalAlignment="Top" 
-                           FontFamily="Consolas" FontSize="20">
+                    <Label x:Name="w_score_label" Content="{Binding WhiteScoreStr}" VerticalAlignment="Top" 
+                           FontFamily="Consolas" FontSize="20" HorizontalAlignment="Center">
                         <Label.DataContext>
                             <local:GameData/>
                         </Label.DataContext>
                     </Label>
                 </StackPanel>
             </StackPanel>
-        </StackPanel>
+        </Grid>
     </StackPanel>
 </Window>

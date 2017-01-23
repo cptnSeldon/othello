@@ -7,19 +7,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <Image x:Key="sw_disc" x:Name="white_side_disc" Source="Resources/side_disc.png" />
-        <Image x:Key="sb_disc" x:Name="black_side_disc" Source="Resources/side_disc.png" RenderTransformOrigin="0.5,0.5" >
+        <Image x:Key="sw_disc" x:Name="white_side_disc" Source="Resources/side_disc.png" RenderTransformOrigin="0.5,0.5" >
             <Image.RenderTransform>
                 <TransformGroup>
-                    <ScaleTransform ScaleY="-1" ScaleX="1"/>
-                    <SkewTransform AngleY="0" AngleX="0"/>
-                    <RotateTransform Angle="-180"/>
-                    <TranslateTransform/>
+                    <ScaleTransform ScaleY="-1"/>
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
+        <Image x:Key="sb_disc" x:Name="black_side_disc" Source="Resources/side_disc.png" />
     </UserControl.Resources>
-    <Button Content="{StaticResource sb_disc}" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}">
+    <Button Content="{StaticResource sw_disc}" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}">
 
     </Button>
 </UserControl>
