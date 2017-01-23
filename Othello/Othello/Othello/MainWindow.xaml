@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:Othello"
         mc:Ignorable="d"
         Title="MainWindow" MinHeight="600" MinWidth="800">
+    <Window.Background>
+        <ImageBrush ImageSource="Resources/wooden_back.jpg"/>
+    </Window.Background>
     <!-- MAIN PROGRAM -->
     <StackPanel x:Name="main_panel" 
                 VerticalAlignment="Top">
@@ -54,19 +57,14 @@
                         Orientation="Horizontal" 
                         Background="LightGray"/>
         </Grid>
-        <!-- BOARD : main panel : vertical -->
-        <StackPanel x:Name="bo_main_panel" Height="400" Orientation="Vertical">
-
-            <!-- BOARD : grid  -->
-            <Grid x:Name="board_grid" Height="375" Width="375" 
-                  HorizontalAlignment="Center" VerticalAlignment="Center" 
-                  Margin="5">
-                <Grid.Background>
-                    <ImageBrush ImageSource="Resources/reversi_board.png"/>
-                </Grid.Background>
-            </Grid>
-        </StackPanel>
-        <!-- WHITE : main panel : vertical -->
+        <!-- BOARD : grid  -->
+        <Grid x:Name="board_grid" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Height="400" >
+            <Grid.Background>
+                <ImageBrush ImageSource="Resources/reversi_board.png" 
+                            Stretch="Uniform"/>
+            </Grid.Background>
+        </Grid>
+        <!-- WHITE : main panel  -->
         <Grid x:Name="w_main_panel" Height="50" VerticalAlignment="Top" 
                     Background="Black">
             <Grid.ColumnDefinitions>
@@ -86,7 +84,6 @@
                         <TranslateTransform/>
                     </TransformGroup>
                 </StackPanel.RenderTransform>
-
             </StackPanel>
             <!-- INFORMATION : chrono + score -->
             <StackPanel x:Name="w_info" Height="50"

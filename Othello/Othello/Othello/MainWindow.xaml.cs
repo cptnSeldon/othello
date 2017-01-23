@@ -170,7 +170,7 @@ namespace Othello
         private void UpdateBoard()
         {
             //remove the following if not in debug mode
-            //data = new GameData();
+            data = new GameData();
 
             //create discs' array
             placedDiscs = new DiscView[8, 8];
@@ -186,16 +186,28 @@ namespace Othello
                     Grid.SetColumn(placedDiscs[row, column], column);
                     Grid.SetRow(placedDiscs[row, column], row);
 
-                    //BLACK
+                    //placed BLACK
                     if (data.StateArray[row, column] == BoardState.PLACED_BLACK)
                     {
                         placedDiscs[row, column].SetState(BoardState.PLACED_BLACK);
                     }
-                    //WHITE
+                    //playable BLACK
+                    if (data.StateArray[row, column] == BoardState.PLAYABLE_BLACK)
+                    {
+                        placedDiscs[row, column].SetState(BoardState.PLAYABLE_BLACK);
+                    }
+
+                    //placed WHITE
                     if (data.StateArray[row, column] == BoardState.PLACED_WHITE)
                     {
                         placedDiscs[row, column].SetState(BoardState.PLACED_WHITE);
                     }
+                    //playable WHITE
+                    if (data.StateArray[row, column] == BoardState.PLAYABLE_WHITE)
+                    {
+                        placedDiscs[row, column].SetState(BoardState.PLAYABLE_WHITE);
+                    }
+
                     //EMPTY
                     else if (data.StateArray[row, column] == BoardState.HIDDEN)
                     {

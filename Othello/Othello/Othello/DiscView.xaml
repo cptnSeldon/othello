@@ -9,8 +9,12 @@
     <UserControl.Resources>
         <Image x:Key="black" x:Name="black_disc" Source="Resources/black.png"/>
         <Image x:Key="white" x:Name="white_disc" Source="Resources/white.png"/>
+        <Image x:Key="p_white" x:Name="placable_white_disc" Source="Resources/white.png" Opacity="0.5"/>
+        <Image x:Key="p_black" x:Name="placable_black_disc" Source="Resources/black.png" Opacity="0.5"/>
     </UserControl.Resources>
-    <Button Content="{StaticResource black}">
-        
+    <Button Content="{StaticResource p_white}" >
+        <Button.DataContext>
+            <local:GameData/>
+        </Button.DataContext>
     </Button>
 </UserControl>

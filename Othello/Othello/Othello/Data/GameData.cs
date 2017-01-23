@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Threading;
 using System.ComponentModel;
+using System.Windows.Input;
+
+
 
 namespace Othello
 {
@@ -64,7 +67,7 @@ namespace Othello
 
         }
 
-        //TIMERS
+        #region TIMERS
         //inside method : timers' initialization
         public void InitializeTimer()
         {
@@ -108,12 +111,12 @@ namespace Othello
             WhiteTimerStr = TimeSpan.FromSeconds(++whiteElapsedTime).ToString();
             OnPropertyChanged("WhiteTimerStr");
         }
-
+        #endregion
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
+        
         //Debug test : fill array to random
         //inside method : fill array
         private void FillArray()
@@ -127,7 +130,7 @@ namespace Othello
                 for (int column = 0; column < 8; column++)
                 {
                     // <=a < b
-                    int state = random.Next(1, 4);
+                    int state = random.Next(1, 6);
 
                     if (state == 1)
                         StateArray[row, column] = BoardState.PLACED_BLACK;
@@ -135,6 +138,11 @@ namespace Othello
                         StateArray[row, column] = BoardState.PLACED_WHITE;
                     if (state == 3)
                         StateArray[row, column] = BoardState.HIDDEN;
+                    if (state == 4)
+                        StateArray[row, column] = BoardState.PLAYABLE_WHITE;
+                    if (state == 5)
+                        StateArray[row, column] = BoardState.PLAYABLE_BLACK;
+
                 }
             }
         }

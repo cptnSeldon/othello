@@ -32,15 +32,27 @@ namespace Othello
             //black
             if (currentState == BoardState.PLACED_BLACK)
                 Content = Resources["black"] as Image;
+            if (currentState == BoardState.PLAYABLE_BLACK)
+                Content = Resources["p_black"] as Image;
 
             //white
             else if (currentState == BoardState.PLACED_WHITE)
                 Content = Resources["white"] as Image;
 
+            else if (currentState == BoardState.PLAYABLE_WHITE)
+                Content = Resources["p_white"] as Image;
+
             //no disc placed on the board
             else if (currentState == BoardState.HIDDEN)
-                Content = null;
+                this.Visibility = Visibility.Hidden;
 
+            //test button click
+            this.MouseDoubleClick += DiscView_MouseDoubleClick;
+        }
+
+        private void DiscView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine("x: {0} y: {1}", Grid.GetRow(this).ToString(), Grid.GetColumn(this).ToString());
         }
     }
 }
