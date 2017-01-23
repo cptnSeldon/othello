@@ -25,6 +25,7 @@ namespace Othello
          *      ATTRIBUTES      *
          ************************/
         GameData data;
+        GameState currentGameState;
         DiscView[,] placedDiscs;
 
         /************************
@@ -34,13 +35,100 @@ namespace Othello
          //CONSTRUCTOR
         public MainWindow()
         {
+            //window init
             InitializeComponent();
-
+            currentGameState = GameState.INIT;
+            //panels init
+            InitializePanels();
+            black_label.DataContext = data;
+            white_label.DataContext = data;
+            //grid init
             InitializeGrid();
             //decomment following if in debug mode
             //InitializeBoard();
             UpdateBoard();
         }
+
+        //PANELS INITIALIZATION
+        public void InitializePanels()
+        {
+            data = new GameData();
+            int j = data.TotalBlack;
+
+            for (int i = 0; i < j; i++)
+            {
+                SideDisc disc = new SideDisc();
+                disc.SetState(GameState.BLACK_TURN);
+                b_discs.Children.Add(disc);
+            }
+
+            for (int i = 0; i < j; i++)
+            {
+                SideDisc disc = new SideDisc();
+                disc.SetState(GameState.WHITE_TURN);
+                w_discs.Children.Add(disc);
+            }
+        }
+
+        //UPDATE PANEL
+        public void UpdatePanel()
+        {
+            if (currentGameState == GameState.INIT)
+                currentGameState = GameState.BLACK_TURN;
+
+            else if (data.TotalWhite != 0 && currentGameState == GameState.BLACK_TURN)
+            {
+                data.TotalBlack--;
+                w_discs.Children.RemoveAt(data.TotalBlack);
+
+                currentGameState = GameState.WHITE_TURN;
+            }
+
+            else if (data.TotalWhite != 0 && currentGameState == GameState.WHITE_TURN)
+            {
+                data.TotalWhite--;
+                b_discs.Children.RemoveAt(data.TotalWhite);
+
+                currentGameState = GameState.BLACK_TURN;
+            }
+            else if (data.TotalWhite == 0 && data.TotalBlack == 0)
+                currentGameState = GameState.GAME_END;
+        }
+
+        //TODO : adapt to disc placement
+        /*
+         in xaml
+         <Button x:Name="Update_button" Height="50" Width="50">
+            Click="Update_button_Click">
+         </Button>
+         
+         here : 
+         private void Update_button_Click(object sender, RoutedEventArgs e)
+        {
+            
+            if (currentGameState != GameState.GAME_END)
+            {
+                if (currentGameState == GameState.WHITE_TURN)
+                {
+                    data.StopTimer(GameState.BLACK_TURN);
+                    data.StartTimer(GameState.WHITE_TURN);
+                }
+                    
+                else if (currentGameState == GameState.BLACK_TURN)
+                {
+                    data.StopTimer(GameState.WHITE_TURN);
+                    data.StartTimer(GameState.BLACK_TURN);
+                }
+                    
+                UpdatePanel();
+            }
+            else
+            {
+                data.StopTimer(GameState.BLACK_TURN);
+                data.StopTimer(GameState.WHITE_TURN);
+            }
+        }
+             */
 
         //GRID INITIALIZATION
         private void InitializeGrid()
@@ -60,7 +148,7 @@ namespace Othello
         //BOARD (RE)INITIALIZATION
         private void InitializeBoard()
         {
-            data = new GameData();
+            //data = new GameData();
 
             //initialize all to hidden state
             for (int row = 0; row < 8; row++)
@@ -82,7 +170,7 @@ namespace Othello
         private void UpdateBoard()
         {
             //remove the following if not in debug mode
-            data = new GameData();
+            //data = new GameData();
 
             //create discs' array
             placedDiscs = new DiscView[8, 8];

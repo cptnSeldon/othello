@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Threading;
+using System.ComponentModel;
 
 namespace Othello
 {
@@ -12,32 +13,35 @@ namespace Othello
     public enum BoardState { PLAYABLE_BLACK, PLAYABLE_WHITE, HIDDEN, PLACED_BLACK, PLACED_WHITE };  // the grid is populated with states
 
     //each new event notifies data to be changed according to the engine
-    class GameData : IPlayable
+    class GameData : IPlayable, INotifyPropertyChanged
     {
 
         /************************
          *      ATTRIBUTES      *
          ************************/
 
-        //board
-        public BoardState[,] StateArray
-        {
-            get;
-            set;
-        }
-        //black
+        //BOARD
+        public BoardState[,] StateArray { get; set; }
+        //SCORE
         private int blackScore;
-        private int blackRemainingTime;
-        private int blackRemainingDiscs;
-        //white
         private int whiteScore;
-        private int whiteRemainingTime;
-        private int whiteRemainingDiscs;
+        //PANEL : remaining discs
+        public int TotalBlack { get; set; }
+        public int TotalWhite { get; set; }
+        //TIMERS
+        public DispatcherTimer blackTimer;
+        public string BlackTimerStr { get; private set; }
+        private int blackElapsedTime = 0;
+
+        public DispatcherTimer whiteTimer;
+        public string WhiteTimerStr { get; private set; }
+        private int whiteElapsedTime = 0;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /************************
          *        METHODS       *
          ************************/
-         
+
         //Initialization
         public GameData()
         {
@@ -45,15 +49,69 @@ namespace Othello
             StateArray = new BoardState[8, 8];
             FillArray();
 
-            //black
+            //score initialization
             blackScore = 0;
-            blackRemainingDiscs = 32;
-            blackRemainingTime = 1000;
-            //white
             whiteScore = 0;
-            whiteRemainingDiscs = 32;
-            whiteRemainingTime = 1000;
-            
+
+            //remaining discs initialization
+            TotalBlack = 30;
+            TotalWhite = 30;
+
+            //timers initialization
+            InitializeTimer();
+            BlackTimerStr = "00:00:00";
+            WhiteTimerStr = "00:00:00";
+
+        }
+
+        //TIMERS
+        //inside method : timers' initialization
+        public void InitializeTimer()
+        {
+            //black
+            blackTimer = new DispatcherTimer();
+            blackTimer.Interval = TimeSpan.FromSeconds(1);
+            blackTimer.Tick += BlackTimerTick;
+            //white
+            whiteTimer = new DispatcherTimer();
+            whiteTimer.Interval = TimeSpan.FromSeconds(1);
+            whiteTimer.Tick += WhiteTimerTick;
+        }
+
+        //Start Timer
+        public void StartTimer(GameState currentState)
+        {
+            if (currentState == GameState.BLACK_TURN)
+                blackTimer.Start();
+            else if (currentState == GameState.WHITE_TURN)
+                whiteTimer.Start();
+        }
+
+        //Stop Timer
+        public void StopTimer(GameState currentState)
+        {
+            if (currentState == GameState.BLACK_TURN)
+                blackTimer.Stop();
+            else if (currentState == GameState.WHITE_TURN)
+                whiteTimer.Stop();
+        }
+
+        //Tick management
+        void BlackTimerTick(object sender, EventArgs e)
+        {
+            BlackTimerStr = TimeSpan.FromSeconds(++blackElapsedTime).ToString();
+            OnPropertyChanged("BlackTimerStr");
+        }
+
+        void WhiteTimerTick(object sender, EventArgs e)
+        {
+            WhiteTimerStr = TimeSpan.FromSeconds(++whiteElapsedTime).ToString();
+            OnPropertyChanged("WhiteTimerStr");
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         //Debug test : fill array to random
