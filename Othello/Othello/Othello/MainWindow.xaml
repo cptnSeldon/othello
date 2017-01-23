@@ -10,13 +10,21 @@
         <ImageBrush ImageSource="Resources/wooden_back.jpg"/>
     </Window.Background>
     <!-- MAIN PROGRAM -->
-    <StackPanel x:Name="main_panel" 
+    <Grid x:Name="main_panel" 
                 VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
         <!-- MENU : main panel  : vertical -->
         <StackPanel x:Name="menu_main_panel" Height="30" 
-                    VerticalAlignment="Top"/>
+                    VerticalAlignment="Top"
+                    Grid.Row="0"/>
         <!-- BLACK : main panel : vertical -->
-        <Grid x:Name="b_main_panel" Height="50" VerticalAlignment="Top">
+        <Grid x:Name="b_main_panel" Height="50" VerticalAlignment="Top"
+              Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -58,7 +66,9 @@
                         Background="LightGray"/>
         </Grid>
         <!-- BOARD : grid  -->
-        <Grid x:Name="board_grid" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Height="400" >
+        <Grid x:Name="board_grid" 
+              HorizontalAlignment="Center" VerticalAlignment="Center"
+              Grid.Row="2">
             <Grid.Background>
                 <ImageBrush ImageSource="Resources/reversi_board.png" 
                             Stretch="Uniform"/>
@@ -66,7 +76,8 @@
         </Grid>
         <!-- WHITE : main panel  -->
         <Grid x:Name="w_main_panel" Height="50" VerticalAlignment="Top" 
-                    Background="Black">
+                    Background="Black"
+              Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -114,5 +125,5 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-    </StackPanel>
+    </Grid>
 </Window>
