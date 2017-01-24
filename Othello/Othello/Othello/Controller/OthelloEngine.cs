@@ -12,12 +12,22 @@ using System.Threading.Tasks;
 namespace Othello
 {
     //-> game state management : data modification -> notifies UI (update)
-    public class OthelloEngine
+    public class OthelloEngine : IPlayable
     {
         #region ATTRIBUTES
         #endregion
 
         #region METHODS
+
+        //new Game
+
+        //next Turn
+
+        //get Next Move
+
+        //get Moves
+
+
         #region IPLAYABLE
         public bool isPlayable(int column, int line, bool isWhite)
         {

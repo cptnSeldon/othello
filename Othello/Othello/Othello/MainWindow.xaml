@@ -23,7 +23,9 @@
                     VerticalAlignment="Top"
                     Grid.Row="0"/>
         <!-- BLACK : main panel : vertical -->
-        <Grid x:Name="b_main_panel" Height="50" VerticalAlignment="Top"
+        <Grid x:Name="b_main_panel" Height="50" 
+              VerticalAlignment="Top"
+              Background="Black"
               Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -32,14 +34,14 @@
             <!-- INFORMATION : chrono + score -->
             <StackPanel x:Name="b_info" Height="50" 
                         Grid.Column="0"
-                        Orientation="Vertical" Background="Gray">
+                        Orientation="Vertical">
                 <!-- CHRONO -->
                 <StackPanel x:Name="b_chrono" Height="25" Orientation="Vertical" 
-                            VerticalAlignment="Top" Background="MediumAquamarine">
+                            VerticalAlignment="Top">
                     <!-- label -->
                     <Label x:Name="black_label" Content="{Binding BlackTimerStr}"
-                           HorizontalAlignment="Center" VerticalAlignment="Top" 
-                           FontFamily="Consolas" FontSize="20">
+                           HorizontalAlignment="Right" VerticalAlignment="Top" 
+                           FontFamily="Consolas" FontSize="20" Foreground="LightGray" >
                         <Label.DataContext>
                             <local:GameData/>
                         </Label.DataContext>
@@ -47,12 +49,11 @@
                 </StackPanel>
                 <!-- SCORE -->
                 <StackPanel x:Name="b_score" Height="25" 
-                            Orientation="Vertical" VerticalAlignment="Top" 
-                            Background="MediumSeaGreen">
+                            Orientation="Vertical" VerticalAlignment="Top">
                     <!-- label -->
                     <Label x:Name="b_score_label" Content="{Binding BlackScoreStr}"
-                           HorizontalAlignment="Center" VerticalAlignment="Top" 
-                           FontFamily="Consolas" FontSize="20">
+                           HorizontalAlignment="Right" VerticalAlignment="Top" 
+                           FontFamily="Consolas" FontSize="20" Foreground="LightGray">
                         <Label.DataContext>
                             <local:GameData/>
                         </Label.DataContext>
@@ -62,21 +63,21 @@
             <!-- REMAINING DISCS -->
             <StackPanel x:Name="b_discs" Height="50"
                         Grid.Column="1"
-                        Orientation="Horizontal" 
-                        Background="LightGray"/>
+                        Orientation="Horizontal"/>
         </Grid>
         <!-- BOARD : grid  -->
         <Grid x:Name="board_grid" 
               HorizontalAlignment="Center" VerticalAlignment="Center"
-              Grid.Row="2">
+              Grid.Row="2" Margin="0,10">
             <Grid.Background>
                 <ImageBrush ImageSource="Resources/reversi_board.png" 
                             Stretch="Uniform"/>
             </Grid.Background>
         </Grid>
         <!-- WHITE : main panel  -->
-        <Grid x:Name="w_main_panel" Height="50" VerticalAlignment="Top" 
-                    Background="Black"
+        <Grid x:Name="w_main_panel" Height="50" 
+              VerticalAlignment="Top" 
+              Background="Black"
               Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -85,7 +86,7 @@
             <!-- REMAINING DISCS -->
             <StackPanel x:Name="w_discs" Height="50" 
                         Grid.Column="0"
-                        Orientation="Horizontal" Background="LightGray" 
+                        Orientation="Horizontal"
                         RenderTransformOrigin="0.5,0.5">
                 <StackPanel.RenderTransform>
                     <TransformGroup>
@@ -99,13 +100,13 @@
             <!-- INFORMATION : chrono + score -->
             <StackPanel x:Name="w_info" Height="50"
                         Grid.Column="1"
-                        Orientation="Vertical" Background="Gray">
+                        Orientation="Vertical">
                 <!-- chrono -->
                 <StackPanel x:Name="w_chrono" Height="25" 
-                            Orientation="Vertical" VerticalAlignment="Top" 
-                            Background="MediumAquamarine">
-                    <Label x:Name="white_label" Content="{Binding WhiteTimerStr}" VerticalAlignment="Top" 
-                           FontFamily="Consolas" FontSize="20" HorizontalAlignment="Center">
+                            Orientation="Vertical" VerticalAlignment="Top">
+                    <Label x:Name="white_label" Content="{Binding WhiteTimerStr}" 
+                           VerticalAlignment="Top" HorizontalAlignment="Left"
+                           FontFamily="Consolas" FontSize="20" Foreground="LightGray">
                         <Label.DataContext>
                             <local:GameData/>
                         </Label.DataContext>
@@ -114,10 +115,11 @@
                 <!-- SCORE -->
                 <StackPanel x:Name="w_score" Height="25" Orientation="Vertical" 
                             VerticalAlignment="Top" 
-                            Background="MediumSeaGreen" RenderTransformOrigin="0.5,0.5">
+                            RenderTransformOrigin="0.5,0.5">
                     <!-- label -->
-                    <Label x:Name="w_score_label" Content="{Binding WhiteScoreStr}" VerticalAlignment="Top" 
-                           FontFamily="Consolas" FontSize="20" HorizontalAlignment="Center">
+                    <Label x:Name="w_score_label" Content="{Binding WhiteScoreStr}" 
+                           VerticalAlignment="Top" HorizontalAlignment="Left"
+                           FontFamily="Consolas" FontSize="20" Foreground="LightGray">
                         <Label.DataContext>
                             <local:GameData/>
                         </Label.DataContext>
