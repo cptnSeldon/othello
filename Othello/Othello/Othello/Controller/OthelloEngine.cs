@@ -19,41 +19,75 @@ namespace Othello
 
         #region METHODS
 
-        //new Game
-
-        //next Turn
-
-        //get Next Move
-
-        //get Moves
-
-
-        #region IPLAYABLE
-        public bool isPlayable(int column, int line, bool isWhite)
+        /* Initialization */
+        public OthelloEngine()
         {
-            return true;
+
+        }
+        /* New Game */
+        public void StartNewGame()
+        {
+            //initialize board
+            //next turn
         }
 
-        public bool playMove(int column, int line, bool isWhite)
+        /* Next Turn */
+        public void GameStateChange()
         {
-            return true;
+            //check if valid moves
         }
 
+        /* Get Next Move : IPlayable */
+        
         public Tuple<char, int> getNextMove(int[,] game, int level, bool whiteTurn)
         {
+            //ask GameEngine next valid move given a game position
             return new Tuple<char, int>('a', 1);
         }
 
-        public int getWhiteScore()
+
+        /* Get Moves : IPlayable */
+        public bool playMove(int column, int line, bool isWhite)
         {
+            //update board status if valid move
+            return true;
+        }
+
+        //returns true if move is valid
+        public bool isPlayable(int column, int line, bool isWhite)
+        {
+            //up
+            //down
+            //left
+            //right
+            //diagonal up
+            //diagonal down
+            return true;
+        }
+        
+
+        /* Scores : IPlayable */
+        //black : BlackTimeStr
+        public int getBlackScore()
+        {
+            //number of black discs on board
             return 0;
         }
 
-        public int getBlackScore()
+        //white : WhiteTimeStr
+        public int getWhiteScore()
         {
+            //number of white discs on board
             return 0;
         }
-        #endregion
+
+
+        /* Save : BoardState[,] StateArray */
+
+        /* Reload */
+
+        /* Undo */
+        
         #endregion
     }
 }
