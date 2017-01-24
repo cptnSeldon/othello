@@ -8,6 +8,7 @@ namespace Othello
 {
     interface IPlayable
     {
+        #region METHODS
         /// <summary>
         /// Returns true if the move is valid for specified color
         /// </summary>
@@ -61,6 +62,6 @@ namespace Othello
         /// </summary>
         /// <returns></returns>
         int getBlackScore();
-
+        #endregion
     }
 }

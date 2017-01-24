@@ -18,6 +18,32 @@ namespace Othello
         #endregion
 
         #region METHODS
+        #region IPLAYABLE
+        public bool isPlayable(int column, int line, bool isWhite)
+        {
+            return true;
+        }
+
+        public bool playMove(int column, int line, bool isWhite)
+        {
+            return true;
+        }
+
+        public Tuple<char, int> getNextMove(int[,] game, int level, bool whiteTurn)
+        {
+            return new Tuple<char, int>('a', 1);
+        }
+
+        public int getWhiteScore()
+        {
+            return 0;
+        }
+
+        public int getBlackScore()
+        {
+            return 0;
+        }
+        #endregion
         #endregion
     }
 }
