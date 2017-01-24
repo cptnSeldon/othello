@@ -146,7 +146,7 @@ namespace Othello
         //Board Initialization
         private void InitializeBoard()
         {
-            //data = new GameData();
+            data = new GameData();
 
             //initialize all to hidden state
             for (int row = 0; row < 8; row++)
