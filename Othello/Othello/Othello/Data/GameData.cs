@@ -138,7 +138,6 @@ namespace Othello
                         StateArray[row, column] = BoardState.PLAYABLE_WHITE;
                     if (state == 5)
                         StateArray[row, column] = BoardState.PLAYABLE_BLACK;
-
                 }
             }
         }
