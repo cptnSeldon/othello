@@ -20,22 +20,22 @@ namespace Othello
     /// </summary>
     public partial class SideDisc : UserControl
     {
-        //CONSTRUCTOR
+        #region METHODS
+        //Initialization
         public SideDisc()
         {
             InitializeComponent();
         }
 
-        //inside method : used for setting the right image to the right disc
+        //Set disc's state
         public void SetState(GameState currentState)
         {
-            // BLACK
             if (currentState == GameState.BLACK_TURN)
                 Content = Resources["sb_disc"] as Image;
-
-            //WHITE
+            
             else if (currentState == GameState.WHITE_TURN)
                 Content = Resources["sw_disc"] as Image;
         }
+        #endregion
     }
 }

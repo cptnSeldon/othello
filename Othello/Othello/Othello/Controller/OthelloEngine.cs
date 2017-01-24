@@ -14,6 +14,10 @@ namespace Othello
     //-> game state management : data modification -> notifies UI (update)
     public class OthelloEngine
     {
-        
+        #region ATTRIBUTES
+        #endregion
+
+        #region METHODS
+        #endregion
     }
 }

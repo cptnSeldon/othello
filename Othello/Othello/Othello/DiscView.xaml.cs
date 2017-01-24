@@ -20,13 +20,14 @@ namespace Othello
     /// </summary>
     public partial class DiscView : UserControl
     {
-        //CONSTRUCTOR
+        #region METHODS
+        //Initialization
         public DiscView()
         {
             InitializeComponent();
         }
 
-        //inside method : setting disc state
+        //Set disc's state
         public void SetState(BoardState currentState)
         {
             //black
@@ -50,9 +51,11 @@ namespace Othello
             this.MouseDoubleClick += DiscView_MouseDoubleClick;
         }
 
+        //Reaction to mouse click
         private void DiscView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Console.WriteLine("x: {0} y: {1}", Grid.GetRow(this).ToString(), Grid.GetColumn(this).ToString());
         }
+        #endregion
     }
 }

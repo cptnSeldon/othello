@@ -11,18 +11,15 @@ using System.Windows.Input;
 
 namespace Othello
 {
-    // Outside of the class so it is accessible everywhere
+    #region BOARD & GAME STATE
     public enum GameState { INIT, BLACK_TURN, WHITE_TURN, GAME_END };   //game main loop
     public enum BoardState { PLAYABLE_BLACK, PLAYABLE_WHITE, HIDDEN, PLACED_BLACK, PLACED_WHITE };  // the grid is populated with states
-
-    //each new event notifies data to be changed according to the engine
-    class GameData : IPlayable, INotifyPropertyChanged
+    #endregion
+    
+    class GameData : IPlayable, INotifyPropertyChanged //each new event notifies data to be changed according to the engine
     {
 
-        /************************
-         *      ATTRIBUTES      *
-         ************************/
-
+        #region ATTRIBUTES
         //BOARD
         public BoardState[,] StateArray { get; set; }
         //SCORE
@@ -40,11 +37,9 @@ namespace Othello
         public string WhiteTimerStr { get; private set; }
         private int whiteElapsedTime = 0;
         public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
 
-        /************************
-         *        METHODS       *
-         ************************/
-
+        #region METHODS
         //Initialization
         public GameData()
         {
@@ -67,8 +62,8 @@ namespace Othello
 
         }
 
-        #region TIMERS
-        //inside method : timers' initialization
+        #region TIMER METHODS
+        //Timer Init
         public void InitializeTimer()
         {
             //black
@@ -112,13 +107,14 @@ namespace Othello
             OnPropertyChanged("WhiteTimerStr");
         }
         #endregion
+        //Notifcation
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-        
-        //Debug test : fill array to random
-        //inside method : fill array
+
+        #region DEBUG
+        //Fill array to random
         private void FillArray()
         {
 
@@ -146,7 +142,9 @@ namespace Othello
                 }
             }
         }
+        #endregion
 
+        #region IPLAYABLE
         public bool isPlayable(int column, int line, bool isWhite)
         {
             return true;
@@ -171,5 +169,7 @@ namespace Othello
         {
             return 0;
         }
+        #endregion
+        #endregion
     }
 }

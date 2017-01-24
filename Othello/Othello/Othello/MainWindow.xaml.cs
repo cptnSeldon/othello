@@ -21,18 +21,14 @@ namespace Othello
     public partial class MainWindow : Window
     {
 
-        /************************
-         *      ATTRIBUTES      *
-         ************************/
+        #region ATTRIBUTES
         GameData data;
         GameState currentGameState;
         DiscView[,] placedDiscs;
+        #endregion
 
-        /************************
-         *        METHODS       *
-         ************************/
-
-         //CONSTRUCTOR
+        #region METHODS
+        //Main Initialization
         public MainWindow()
         {
             //window init
@@ -49,7 +45,8 @@ namespace Othello
             UpdateBoard();
         }
 
-        //PANELS INITIALIZATION
+        #region PANELS
+        //Panels Initialization
         public void InitializePanels()
         {
             data = new GameData();
@@ -70,7 +67,7 @@ namespace Othello
             }
         }
 
-        //UPDATE PANEL
+        //Panels Update
         public void UpdatePanel()
         {
             if (currentGameState == GameState.INIT)
@@ -94,7 +91,7 @@ namespace Othello
             else if (data.TotalWhite == 0 && data.TotalBlack == 0)
                 currentGameState = GameState.GAME_END;
         }
-
+        #endregion
         //TODO : adapt to disc placement
         /*
          in xaml
@@ -129,8 +126,8 @@ namespace Othello
             }
         }
              */
-
-        //GRID INITIALIZATION
+        #region GRID
+        //Grid Initialization
         private void InitializeGrid()
         {
             //retrieve size information from *.xaml
@@ -144,8 +141,9 @@ namespace Othello
                 board_grid.RowDefinitions.Add(new RowDefinition());
             }
         }
-
-        //BOARD (RE)INITIALIZATION
+        #endregion
+        #region BOARD
+        //Board Initialization
         private void InitializeBoard()
         {
             //data = new GameData();
@@ -166,7 +164,7 @@ namespace Othello
             data.StateArray[4, 3] = BoardState.PLACED_WHITE;
         }
 
-        //BOARD UPDATE
+        //Board Update
         private void UpdateBoard()
         {
             //remove the following if not in debug mode
@@ -219,5 +217,7 @@ namespace Othello
                 }
             }
         }
+        #endregion
+        #endregion
     }
 }
