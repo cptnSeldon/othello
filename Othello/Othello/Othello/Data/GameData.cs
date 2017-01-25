@@ -16,8 +16,12 @@ namespace Othello
     public enum BoardState { PLAYABLE_BLACK, PLAYABLE_WHITE, HIDDEN, PLACED_BLACK, PLACED_WHITE };  // the grid is populated with states
     #endregion
     
-    class GameData : INotifyPropertyChanged //each new event notifies data to be changed according to the engine
+    public class GameData : INotifyPropertyChanged //each new event notifies data to be changed according to the engine
     {
+
+        #region CONSTANTS
+        public const int BOARDSIZE = 8;
+        #endregion
 
         #region ATTRIBUTES
         //BOARD
@@ -44,7 +48,7 @@ namespace Othello
         public GameData()
         {
             //board initialization
-            StateArray = new BoardState[8, 8];
+            StateArray = new BoardState[BOARDSIZE, BOARDSIZE];
             FillArray();
 
             //score initialization
@@ -140,6 +144,32 @@ namespace Othello
                         StateArray[row, column] = BoardState.PLAYABLE_BLACK;
                 }
             }
+        }
+
+        public void UpdateScore()
+        {
+            WhiteScoreStr = BlackScoreStr = "0";
+            int whiteScore = 0;
+            int blackScore = 0;
+
+            for (int y = 0; y < BOARDSIZE; y++)
+            {
+                for (int x = 0; x < BOARDSIZE; x++)
+                {
+                    if (StateArray[x, y] != BoardState.HIDDEN)
+                    {
+                        if (StateArray[x, y] == BoardState.PLACED_WHITE)
+                            whiteScore++;
+                        else
+                        if (StateArray[x, y] == BoardState.PLACED_BLACK)
+                            blackScore++;
+                    }
+                }
+            }
+
+            this.BlackScoreStr = blackScore.ToString();
+            this.WhiteScoreStr = whiteScore.ToString();
+
         }
         #endregion
 

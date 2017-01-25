@@ -23,6 +23,7 @@ namespace Othello
 
         #region ATTRIBUTES
         GameData data;
+        OthelloEngine engine;
         GameState currentGameState;
         DiscView[,] placedDiscs;
         #endregion
@@ -50,6 +51,9 @@ namespace Othello
         public void InitializePanels()
         {
             data = new GameData();
+            // Ajout pour la liaison des données avec le contrôleur
+            engine = new OthelloEngine(data, BoardState.PLACED_WHITE);
+
             int j = data.TotalBlack;
 
             for (int i = 0; i < j; i++)
@@ -65,6 +69,35 @@ namespace Othello
                 disc.SetState(GameState.WHITE_TURN);
                 w_discs.Children.Add(disc);
             }
+
+            bool isWhite = engine.CurrentPlayer == BoardState.PLACED_WHITE;
+            Console.Write(engine.ToString());
+            if (engine.IsPlayable(5,3))
+            {
+                engine.playMove(5, 3, isWhite);
+            }
+            Console.Write(engine.ToString());
+            Console.WriteLine("Black score " + data.BlackScoreStr);
+            Console.WriteLine("White score " + data.WhiteScoreStr);
+
+            isWhite = engine.CurrentPlayer == BoardState.PLACED_WHITE;
+            if (engine.IsPlayable(5, 2))
+            {
+                engine.playMove(5, 2, isWhite);
+            }
+            Console.Write(engine.ToString());
+            Console.WriteLine("Black score " + data.BlackScoreStr);
+            Console.WriteLine("White score " + data.WhiteScoreStr);
+
+
+            isWhite = engine.CurrentPlayer == BoardState.PLACED_WHITE;
+            if (engine.IsPlayable(4, 2))
+            {
+                engine.playMove(4, 2, isWhite);
+            }
+            Console.Write(engine.ToString());
+            Console.WriteLine("Black score " + data.BlackScoreStr);
+            Console.WriteLine("White score " + data.WhiteScoreStr);
         }
 
         //Panels Update
@@ -147,6 +180,7 @@ namespace Othello
         private void InitializeBoard()
         {
             data = new GameData();
+
 
             //initialize all to hidden state
             for (int row = 0; row < 8; row++)
