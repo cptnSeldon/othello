@@ -8,7 +8,7 @@ namespace Othello
 {
     interface IPlayable
     {
-        #region METHODS
+        #region GIVEN METHODS
         /// <summary>
         /// Returns true if the move is valid for specified color
         /// </summary>
@@ -55,13 +55,19 @@ namespace Othello
         /// Returns the number of white tiles on the board
         /// </summary>
         /// <returns></returns>
-        int getWhiteScore();
+        //int getWhiteScore();
 
         /// <summary>
         /// Returns the number of black tiles
         /// </summary>
         /// <returns></returns>
-        int getBlackScore();
+        //int getBlackScore();
+        #endregion
+
+        #region CUSTOM METHODS
+        BoardState[,] getGameState();
+        int getTotalBlack();
+        int getTotalWhite();
         #endregion
     }
 }

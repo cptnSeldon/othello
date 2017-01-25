@@ -22,9 +22,8 @@ namespace Othello
     {
 
         #region ATTRIBUTES
-        GameData data;
-        OthelloEngine engine;
-        GameState currentGameState;
+        // GameData data;
+        IPlayable engine;
         DiscView[,] placedDiscs;
         #endregion
 
@@ -32,29 +31,24 @@ namespace Othello
         //Main Initialization
         public MainWindow()
         {
+            engine = new OthelloEngine();
             //window init
             InitializeComponent();
-            currentGameState = GameState.INIT;
             //panels init
             InitializePanels();
-            black_label.DataContext = data;
-            white_label.DataContext = data;
+            black_label.DataContext = engine;
+            white_label.DataContext = engine;
             //grid init
             InitializeGrid();
-            //decomment following if in debug mode
             InitializeBoard();
-            UpdateBoard();
+            //update board
+            UpdateBoard(engine.getGameState());
         }
-
-        #region PANELS
-        //Panels Initialization
+        
+        /* REMAINING DISCS' PANEL INITIALIZATION */
         public void InitializePanels()
         {
-            data = new GameData();
-            // Ajout pour la liaison des données avec le contrôleur
-            engine = new OthelloEngine(data, BoardState.PLACED_WHITE);
-
-            int j = data.TotalBlack;
+            int j = engine.getTotalBlack();
 
             for (int i = 0; i < j; i++)
             {
@@ -69,62 +63,8 @@ namespace Othello
                 disc.SetState(GameState.WHITE_TURN);
                 w_discs.Children.Add(disc);
             }
-
-            bool isWhite = engine.CurrentPlayer == BoardState.PLACED_WHITE;
-            Console.Write(engine.ToString());
-            if (engine.IsPlayable(5,3))
-            {
-                engine.playMove(5, 3, isWhite);
-            }
-            Console.Write(engine.ToString());
-            Console.WriteLine("Black score " + data.BlackScoreStr);
-            Console.WriteLine("White score " + data.WhiteScoreStr);
-
-            isWhite = engine.CurrentPlayer == BoardState.PLACED_WHITE;
-            if (engine.IsPlayable(5, 2))
-            {
-                engine.playMove(5, 2, isWhite);
-            }
-            Console.Write(engine.ToString());
-            Console.WriteLine("Black score " + data.BlackScoreStr);
-            Console.WriteLine("White score " + data.WhiteScoreStr);
-
-
-            isWhite = engine.CurrentPlayer == BoardState.PLACED_WHITE;
-            if (engine.IsPlayable(4, 2))
-            {
-                engine.playMove(4, 2, isWhite);
-            }
-            Console.Write(engine.ToString());
-            Console.WriteLine("Black score " + data.BlackScoreStr);
-            Console.WriteLine("White score " + data.WhiteScoreStr);
         }
-
-        //Panels Update
-        public void UpdatePanel()
-        {
-            if (currentGameState == GameState.INIT)
-                currentGameState = GameState.BLACK_TURN;
-
-            else if (data.TotalWhite != 0 && currentGameState == GameState.BLACK_TURN)
-            {
-                data.TotalBlack--;
-                w_discs.Children.RemoveAt(data.TotalBlack);
-
-                currentGameState = GameState.WHITE_TURN;
-            }
-
-            else if (data.TotalWhite != 0 && currentGameState == GameState.WHITE_TURN)
-            {
-                data.TotalWhite--;
-                b_discs.Children.RemoveAt(data.TotalWhite);
-
-                currentGameState = GameState.BLACK_TURN;
-            }
-            else if (data.TotalWhite == 0 && data.TotalBlack == 0)
-                currentGameState = GameState.GAME_END;
-        }
-        #endregion
+        
         //TODO : adapt to disc placement
         /*
          in xaml
@@ -159,8 +99,8 @@ namespace Othello
             }
         }
              */
-        #region GRID
-        //Grid Initialization
+        
+        /* GRID INITIALIZATION */
         private void InitializeGrid()
         {
             //retrieve size information from *.xaml
@@ -174,36 +114,10 @@ namespace Othello
                 board_grid.RowDefinitions.Add(new RowDefinition());
             }
         }
-        #endregion
-        #region BOARD
-        //Board Initialization
+        
+        /* BOARD INITIALIZATION */
         private void InitializeBoard()
         {
-            data = new GameData();
-
-
-            //initialize all to hidden state
-            for (int row = 0; row < 8; row++)
-            {
-                for (int column = 0; column < 8; column++)
-                {
-                    data.StateArray[row, column] = BoardState.HIDDEN;
-                }
-            }
-
-            //place the four start discs in the middle of the board
-            data.StateArray[3, 3] = BoardState.PLACED_BLACK;
-            data.StateArray[4, 4] = BoardState.PLACED_BLACK;
-            data.StateArray[3, 4] = BoardState.PLACED_WHITE;
-            data.StateArray[4, 3] = BoardState.PLACED_WHITE;
-        }
-
-        //Board Update
-        private void UpdateBoard()
-        {
-            //remove the following if not in debug mode
-            data = new GameData();
-
             //create discs' array
             placedDiscs = new DiscView[8, 8];
 
@@ -212,46 +126,28 @@ namespace Othello
             {
                 for (int column = 0; column < 8; column++)
                 {
-                    
                     placedDiscs[row, column] = new DiscView();
                     
                     Grid.SetColumn(placedDiscs[row, column], column);
                     Grid.SetRow(placedDiscs[row, column], row);
-
-                    //placed BLACK
-                    if (data.StateArray[row, column] == BoardState.PLACED_BLACK)
-                    {
-                        placedDiscs[row, column].SetState(BoardState.PLACED_BLACK);
-                    }
-                    //playable BLACK
-                    if (data.StateArray[row, column] == BoardState.PLAYABLE_BLACK)
-                    {
-                        placedDiscs[row, column].SetState(BoardState.PLAYABLE_BLACK);
-                    }
-
-                    //placed WHITE
-                    if (data.StateArray[row, column] == BoardState.PLACED_WHITE)
-                    {
-                        placedDiscs[row, column].SetState(BoardState.PLACED_WHITE);
-                    }
-                    //playable WHITE
-                    if (data.StateArray[row, column] == BoardState.PLAYABLE_WHITE)
-                    {
-                        placedDiscs[row, column].SetState(BoardState.PLAYABLE_WHITE);
-                    }
-
-                    //EMPTY
-                    else if (data.StateArray[row, column] == BoardState.HIDDEN)
-                    {
-                        placedDiscs[row, column].SetState(BoardState.HIDDEN);
-                    }
-
+                    
                     //populate Board (visual)
                     board_grid.Children.Add(placedDiscs[row, column]);
                 }
             }
         }
-        #endregion
+
+        /* UPDATE BOARD */
+        public void UpdateBoard(BoardState[,] board)
+        {
+            for (int row = 0; row < GameData.BOARDSIZE; row++)
+            {
+                for (int column = 0; column < GameData.BOARDSIZE; column++)
+                {
+                    placedDiscs[row, column].SetState(board[row, column]);
+                }
+            }
+        }
         #endregion
     }
 }

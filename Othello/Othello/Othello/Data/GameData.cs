@@ -27,18 +27,18 @@ namespace Othello
         //BOARD
         public BoardState[,] StateArray { get; set; }
         //SCORE
-        public string BlackScoreStr { get; private set; }
-        public string WhiteScoreStr { get; private set; }
+        public string BlackScoreStr { get; set; }
+        public string WhiteScoreStr { get; set; }
         //PANEL : remaining discs
         public int TotalBlack { get; set; }
         public int TotalWhite { get; set; }
         //TIMERS
         public DispatcherTimer blackTimer;
-        public string BlackTimerStr { get; private set; }
+        public string BlackTimerStr { get; set; }
         private int blackElapsedTime = 0;
 
         public DispatcherTimer whiteTimer;
-        public string WhiteTimerStr { get; private set; }
+        public string WhiteTimerStr { get; set; }
         private int whiteElapsedTime = 0;
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
@@ -49,7 +49,6 @@ namespace Othello
         {
             //board initialization
             StateArray = new BoardState[BOARDSIZE, BOARDSIZE];
-            FillArray();
 
             //score initialization
             BlackScoreStr = "2";
@@ -116,63 +115,6 @@ namespace Othello
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
-        #region DEBUG
-        //Fill array to random
-        private void FillArray()
-        {
-
-            Random random = new Random();
-
-            // random filling
-            for (int row = 0; row < 8; row++)
-            {
-                for (int column = 0; column < 8; column++)
-                {
-                    // <=a < b
-                    int state = random.Next(1, 6);
-
-                    if (state == 1)
-                        StateArray[row, column] = BoardState.PLACED_BLACK;
-                    if (state == 2)
-                        StateArray[row, column] = BoardState.PLACED_WHITE;
-                    if (state == 3)
-                        StateArray[row, column] = BoardState.HIDDEN;
-                    if (state == 4)
-                        StateArray[row, column] = BoardState.PLAYABLE_WHITE;
-                    if (state == 5)
-                        StateArray[row, column] = BoardState.PLAYABLE_BLACK;
-                }
-            }
-        }
-
-        public void UpdateScore()
-        {
-            WhiteScoreStr = BlackScoreStr = "0";
-            int whiteScore = 0;
-            int blackScore = 0;
-
-            for (int y = 0; y < BOARDSIZE; y++)
-            {
-                for (int x = 0; x < BOARDSIZE; x++)
-                {
-                    if (StateArray[x, y] != BoardState.HIDDEN)
-                    {
-                        if (StateArray[x, y] == BoardState.PLACED_WHITE)
-                            whiteScore++;
-                        else
-                        if (StateArray[x, y] == BoardState.PLACED_BLACK)
-                            blackScore++;
-                    }
-                }
-            }
-
-            this.BlackScoreStr = blackScore.ToString();
-            this.WhiteScoreStr = whiteScore.ToString();
-
-        }
-        #endregion
-
         #endregion
     }
 }

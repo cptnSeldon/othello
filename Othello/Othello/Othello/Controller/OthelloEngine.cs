@@ -15,104 +15,55 @@ namespace Othello
     public class OthelloEngine : IPlayable
     {
         #region ATTRIBUTES
-
-        private Stack<int[,]> history;
+        //data
+        GameState currentGameState;
+        BoardState currentPlayer;
+        private GameData data;
         
+        private Stack<int[,]> history;
         // clé: string représentant un mouvement, exemple : "07"
         // valeur: liste des tuiles capturées si ce mouvement est efefctuées
         private Dictionary<String, List<Tuple<int, int>>> possibleMoves;
         public bool CanMove { get { return possibleMoves.Count > 0; } }
-
-        private BoardState currentPlayer = BoardState.HIDDEN; 
-        public BoardState CurrentPlayer { get { return currentPlayer; } }
-        private GameData datas;
-
         #endregion
 
         #region METHODS
-
-
-        /* New Game */
-        public void StartNewGame()
+        #region GAME LOOP
+        /* 0. Initialization */
+        public OthelloEngine()
         {
-            //initialize board
-            //next turn
-        }
+            /** DATA INITIALIZATION */
+            data = new GameData();
+            currentGameState = GameState.BLACK_TURN;
+            currentPlayer = BoardState.PLACED_BLACK;
 
-
-        /* Initialization */
-        public OthelloEngine(GameData datas, BoardState player)
-        {
-            this.datas = datas;
-            currentPlayer = player;
-
-            // intialisation
             history = new Stack<int[,]>();
             possibleMoves = new Dictionary<String, List<Tuple<int, int>>>();
 
-            // if wee need tiles to know their positions
-            for (int i = 0; i < GameData.BOARDSIZE; i++)
+            /** BOARD INITIALIZATION */
+            //initialize all to hidden state
+            for (int row = 0; row < GameData.BOARDSIZE; row++)
             {
-                for (int j = 0; j < GameData.BOARDSIZE; j++)
+                for (int column = 0; column < GameData.BOARDSIZE; column++)
                 {
-                    datas.StateArray[i, j] = BoardState.HIDDEN;
+                    data.StateArray[row, column] = BoardState.HIDDEN;
                 }
             }
 
-            datas.StateArray[3, 4] = datas.StateArray[4, 3] = BoardState.PLACED_BLACK;
-            datas.StateArray[3, 3] = datas.StateArray[4, 4] = BoardState.PLACED_WHITE;
+            //place the four start discs in the middle of the board
+            data.StateArray[3, 3] = BoardState.PLACED_BLACK;
+            data.StateArray[4, 4] = BoardState.PLACED_BLACK;
+            data.StateArray[3, 4] = BoardState.PLACED_WHITE;
+            data.StateArray[4, 3] = BoardState.PLACED_WHITE;
 
+            /** GET POSSIBLE MOVES */
             ComputePossibleMoves();
         }
 
-        /* Next Turn */
-        public void GameStateChange()
-        {
-            //check if valid moves
-        }
-
-        /* Get Next Move : IPlayable */
-        
-        public Tuple<char, int> getNextMove(int[,] game, int level, bool whiteTurn)
-        {
-            //ask GameEngine next valid move given a game position
-            return new Tuple<char, int>('a', 1);
-        }
-
-
-        /* Get Moves : IPlayable */
-        public bool playMove(int column, int line, bool isWhite)
-        {
-            //update board status if valid move
-            if (IsPlayable(column, line))
-            {  
-                // pose une pièce sur la case jouée
-                datas.StateArray[column, line] = currentPlayer;
-
-                foreach (Tuple<int, int> item in possibleMoves[tupleToString(column, line)])
-                {
-                    datas.StateArray[item.Item1, item.Item2] = currentPlayer;
-                    datas.UpdateScore();
-                }
-                // We don't remove the possible move in the datas, because we will change the player and compute the moves directly after
-
-                ChangePlayer();
-
-                ComputePossibleMoves();
-
-                return true;
-            }
-            Console.WriteLine($"can't make the move : {column}:{line}");
-            return false;
-        }
-
-        public void ChangePlayer()
-        {
-            this.currentPlayer = currentPlayer == BoardState.PLACED_WHITE ? BoardState.PLACED_BLACK : BoardState.PLACED_WHITE;
-        }
-
+        /* 1.1 CHECK POSSIBLE MOVES */
         public void ComputePossibleMoves()
         {
+            //clear old moves list
             possibleMoves.Clear();
 
             // adds all available tiles
@@ -120,23 +71,40 @@ namespace Othello
             {
                 for (int line = 0; line < GameData.BOARDSIZE; line++)
                 {
+                    //checks move's validity
                     computeMove(column, line);
                 }
             }
         }
 
+        /* 1.2 CHECK MOVE'S VALIDITY */
         private void computeMove(int column, int line)
         {
-            if (datas.StateArray[column, line] != BoardState.HIDDEN)
+            //check if tile is already taken
+            if (data.StateArray[column, line] != BoardState.HIDDEN)
                 return;
 
-            BoardState ennemi;
+            //check Player's color
+            BoardState myColor;
+            BoardState opponentColor;
 
             if (currentPlayer == BoardState.PLACED_WHITE)
-                ennemi = BoardState.PLACED_BLACK;
+            {
+                opponentColor = BoardState.PLACED_BLACK;
+                myColor = BoardState.PLACED_WHITE;
+            }
             else
-                ennemi = BoardState.PLACED_WHITE;
+            {
+                opponentColor = BoardState.PLACED_WHITE;
+                myColor = BoardState.PLACED_BLACK;
+            }
+                
 
+            //TODO : up, down, left, right
+            //       diagonals left-to-right up, down
+            //       diagonals right-to-left up, down
+
+            //TEST 1
             List<Tuple<int, int>> neighborhood = new List<Tuple<int, int>>();
 
             for (int i = column - 1; i <= column + 1; i++)
@@ -145,7 +113,7 @@ namespace Othello
                 {
                     try
                     {
-                        if (datas.StateArray[i, j] == ennemi)
+                        if (data.StateArray[i, j] == opponentColor)
                             neighborhood.Add(new Tuple<int, int>(i, j));
                     }
                     catch (Exception)
@@ -158,6 +126,7 @@ namespace Othello
             if (neighborhood.Count == 0)
                 return;
 
+            //TEST 2
             List<Tuple<int, int>> catchedTiles = new List<Tuple<int, int>>();
 
             foreach (Tuple<int, int> neighborn in neighborhood)
@@ -169,14 +138,14 @@ namespace Othello
                 List<Tuple<int, int>> temp = new List<Tuple<int, int>>();
                 try
                 {
-                    while (datas.StateArray[x, y] == ennemi)
+                    while (data.StateArray[x, y] == opponentColor)
                     {
                         temp.Add(new Tuple<int, int>(x, y));
                         x = x + dx;
                         y = y + dy;
                     }
 
-                    if (datas.StateArray[x, y] == currentPlayer)
+                    if (data.StateArray[x, y] == myColor)
                         catchedTiles.AddRange(temp);
                 }
                 catch (Exception)
@@ -188,21 +157,117 @@ namespace Othello
                 return;
 
             possibleMoves.Add(tupleToString(column, line), catchedTiles);
+            data.StateArray[column, line] = BoardState.PLAYABLE_BLACK;
 
             return;
         }
 
-        private String tupleToString(Tuple<int, int> tuple)
+        /* 2. DISC'S PLACEMENT ON THE BOARD : binded to click */
+        public bool playMove(int column, int line, bool isWhite)
         {
-            return tupleToString(tuple.Item1, tuple.Item2);
+            //update board status if valid move
+            if (IsPlayable(column, line))
+            {
+                //place disc on the board
+                data.StateArray[column, line] = currentPlayer;
+
+                foreach (Tuple<int, int> move in possibleMoves[tupleToString(column, line)])
+                {
+                    //update board
+                    data.StateArray[move.Item1, move.Item2] = currentPlayer;
+                    //update score
+                    UpdateScore();
+                }
+                // We don't remove the possible move in the datas, because we will change the player and compute the moves directly after
+
+                //go to 3.
+                ChangePlayer();
+                //go to 1.
+                ComputePossibleMoves();
+
+                return true;
+            }
+            Console.WriteLine($"can't make the move : {column}:{line}");
+            return false;
         }
 
-        private String tupleToString(int x, int y)
+        /* 3.1 PLAYER CHANGE */
+        public void ChangePlayer()
         {
-            return $"{x}{y}";
+            this.currentPlayer = currentPlayer == BoardState.PLACED_WHITE ? BoardState.PLACED_BLACK : BoardState.PLACED_WHITE;
         }
 
+        /* 3.2 GAME STATE CHANGE */
+        public void GameStateChange()
+        {
+            if (currentGameState == GameState.INIT)
+                currentGameState = GameState.BLACK_TURN;
 
+            else if (data.TotalWhite != 0 && currentGameState == GameState.BLACK_TURN)
+            {
+                data.TotalBlack--;
+
+                currentGameState = GameState.WHITE_TURN;
+            }
+
+            else if (data.TotalWhite != 0 && currentGameState == GameState.WHITE_TURN)
+            {
+                data.TotalWhite--;
+
+                currentGameState = GameState.BLACK_TURN;
+            }
+            else if (data.TotalWhite == 0 && data.TotalBlack == 0)
+                currentGameState = GameState.GAME_END;
+        }
+        
+        /* GET GAME STATE */
+        public BoardState[,] getGameState()
+        {
+            return data.StateArray;
+        }
+        #endregion
+
+        #region SCORE & SIDE DISCS MANAGEMENT
+        public void UpdateScore()
+        {
+            data.WhiteScoreStr = data.BlackScoreStr = "0";
+            int whiteScore = 0;
+            int blackScore = 0;
+
+            for (int y = 0; y < GameData.BOARDSIZE; y++)
+            {
+                for (int x = 0; x < GameData.BOARDSIZE; x++)
+                {
+                    if (data.StateArray[x, y] != BoardState.HIDDEN)
+                    {
+                        if (data.StateArray[x, y] == BoardState.PLACED_WHITE)
+                            whiteScore++;
+                        else
+                        if (data.StateArray[x, y] == BoardState.PLACED_BLACK)
+                            blackScore++;
+                    }
+                }
+            }
+
+            data.BlackScoreStr = blackScore.ToString();
+            data.WhiteScoreStr = whiteScore.ToString();
+
+        }
+
+        /* REMAINING BLACK MOVES PANEL */
+        public int getTotalBlack() { return data.TotalBlack; }
+
+        /* REMAINING WHITE MOVES PANEL */
+        public int getTotalWhite() { return data.TotalWhite; }
+        #endregion
+
+        #region IA
+        /* Get Next Move : IPlayable */
+        public Tuple<char, int> getNextMove(int[,] game, int level, bool whiteTurn)
+        {
+            //ask GameEngine next valid move given a game position
+            return new Tuple<char, int>('a', 1);
+        }
         /// <summary>
         /// Returns true if the move is valid for specified color
         /// </summary>
@@ -214,21 +279,22 @@ namespace Othello
             return possibleMoves.ContainsKey(tupleToString(column, line));
         }
 
-        /* Scores : IPlayable */
-        //black : BlackTimeStr
-        public int getBlackScore()
+        public bool isPlayable(int column, int line, bool isWhite)
         {
-            //number of black discs on board
-            return 0;
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region STRING
+        private String tupleToString(Tuple<int, int> tuple)
+        {
+            return tupleToString(tuple.Item1, tuple.Item2);
         }
 
-        //white : WhiteTimeStr
-        public int getWhiteScore()
+        private String tupleToString(int x, int y)
         {
-            //number of white discs on board
-            return 0;
+            return $"{x}{y}";
         }
-
         public override string ToString()
         {
             StringBuilder str = new StringBuilder();
@@ -238,7 +304,7 @@ namespace Othello
                 str.Append($"{y} ");
                 for (int x = 0; x < GameData.BOARDSIZE; x++)
                 {
-                    string tile = datas.StateArray[x, y] == BoardState.HIDDEN ? "_" : (datas.StateArray[x, y] == BoardState.PLACED_WHITE ? "w" : "b");
+                    string tile = data.StateArray[x, y] == BoardState.HIDDEN ? "_" : (data.StateArray[x, y] == BoardState.PLACED_WHITE ? "w" : "b");
                     if (possibleMoves.ContainsKey(tupleToString(x, y)))
                         tile = ".";
                     str.Append($"{tile} ");
@@ -247,12 +313,7 @@ namespace Othello
             }
             return str.ToString();
         }
-
-        public bool isPlayable(int column, int line, bool isWhite)
-        {
-            throw new NotImplementedException();
-        }
-
+        #endregion
         #endregion
     }
 }
