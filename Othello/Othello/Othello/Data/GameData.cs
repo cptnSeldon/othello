@@ -27,8 +27,17 @@ namespace Othello
         //BOARD
         public BoardState[,] StateArray { get; set; }
         //SCORE
-        public string BlackScoreStr { get; set; }
-        public string WhiteScoreStr { get; set; }
+        private string blackScoreStr;
+        private string whiteScoreStr;
+        public string BlackScoreStr
+        {
+            get { return blackScoreStr; }
+            set { blackScoreStr = value; OnPropertyChanged("BlackScoreStr"); }
+        }
+        public string WhiteScoreStr {
+            get { return whiteScoreStr; }
+            set { whiteScoreStr = value; OnPropertyChanged("WhiteScoreStr"); }
+        }
         //PANEL : remaining discs
         public int TotalBlack { get; set; }
         public int TotalWhite { get; set; }

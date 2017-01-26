@@ -18,7 +18,7 @@ namespace Othello
         //data
         GameState currentGameState;
         BoardState currentPlayer;
-        private GameData data;
+        public GameData data { get; }
         
         private Stack<int[,]> history;
         // clé: string représentant un mouvement, exemple : "07"

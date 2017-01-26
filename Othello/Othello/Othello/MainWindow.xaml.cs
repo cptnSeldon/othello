@@ -28,7 +28,7 @@ namespace Othello
         #endregion
 
         #region METHODS
-        //Main Initialization
+        /* MAIN INITIALIZATION */
         public MainWindow()
         {
             engine = new OthelloEngine();
@@ -36,15 +36,17 @@ namespace Othello
             InitializeComponent();
             //panels init
             InitializePanels();
-            black_label.DataContext = engine;
-            white_label.DataContext = engine;
+            black_label.DataContext = (engine as OthelloEngine).data;
+            white_label.DataContext = (engine as OthelloEngine).data;
+            b_score_label.DataContext = (engine as OthelloEngine).data;
+            w_score_label.DataContext = (engine as OthelloEngine).data;
             //grid init
             InitializeGrid();
             InitializeBoard();
             //update board
             UpdateBoard(engine.getGameState());
         }
-        
+
         /* REMAINING DISCS' PANEL INITIALIZATION */
         public void InitializePanels()
         {
