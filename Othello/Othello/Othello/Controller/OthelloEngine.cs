@@ -66,6 +66,11 @@ namespace Othello
             //clear old moves list
             possibleMoves.Clear();
 
+            for (int column = 0; column < GameData.BOARDSIZE; column++)
+                for (int line = 0; line < GameData.BOARDSIZE; line++)
+                    if (data.StateArray[column, line] == BoardState.PLAYABLE_WHITE || data.StateArray[column, line] == BoardState.PLAYABLE_BLACK)
+                        data.StateArray[column, line] = BoardState.HIDDEN;
+
             // adds all available tiles
             for (int column = 0; column < GameData.BOARDSIZE; column++)
             {
@@ -157,7 +162,7 @@ namespace Othello
                 return;
 
             possibleMoves.Add(tupleToString(column, line), catchedTiles);
-            data.StateArray[column, line] = BoardState.PLAYABLE_BLACK;
+            data.StateArray[column, line] = currentPlayer == BoardState.PLACED_WHITE ? BoardState.PLAYABLE_WHITE : BoardState.PLAYABLE_BLACK;
 
             return;
         }

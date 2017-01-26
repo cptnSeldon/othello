@@ -127,6 +127,7 @@ namespace Othello
                 for (int column = 0; column < 8; column++)
                 {
                     placedDiscs[row, column] = new DiscView();
+                    placedDiscs[row, column].setMouseDown(DiscView_MouseDown);
                     
                     Grid.SetColumn(placedDiscs[row, column], column);
                     Grid.SetRow(placedDiscs[row, column], row);
@@ -135,6 +136,13 @@ namespace Othello
                     board_grid.Children.Add(placedDiscs[row, column]);
                 }
             }
+        }
+
+        
+        private void DiscView_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            engine.playMove(Grid.GetRow((DiscView)sender), Grid.GetColumn((DiscView)sender), true);
+            UpdateBoard(engine.getGameState());
         }
 
         /* UPDATE BOARD */

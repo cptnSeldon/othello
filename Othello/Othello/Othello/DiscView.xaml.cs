@@ -53,29 +53,13 @@ namespace Othello
             this.currentState = currentState;
             Visibility = currentState == BoardState.HIDDEN ? Visibility.Hidden : Visibility.Visible;
             IsEnabled = currentState == BoardState.PLAYABLE_BLACK || currentState == BoardState.PLAYABLE_WHITE;
-
-            //test button click
-            this.MouseDown += DiscView_MouseDown;
+            
         }
 
         /* MOUSE CLICK EVENT */
-        private void DiscView_MouseDown(object sender, MouseButtonEventArgs e)
+        public void setMouseDown(MouseButtonEventHandler eventHandler)
         {
-            if (Content == Resources["p_black"])
-            {
-                Console.WriteLine("Playable black at position \n\tx: {0} y: {1}", Grid.GetRow(this).ToString(), Grid.GetColumn(this).ToString());
-            }
-
-            else if (Content == Resources["p_white"])
-            {
-                Console.WriteLine("Playable white at position \n\tx: {0} y: {1}", Grid.GetRow(this).ToString(), Grid.GetColumn(this).ToString());
-            }
-
-            else
-            {
-                //debug test : won't send anything as the items are deactivated if not playable
-                Console.WriteLine("Not valid position");
-            }
+            this.MouseDown += eventHandler;
         }
         #endregion
     }
