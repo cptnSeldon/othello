@@ -186,7 +186,13 @@ namespace Othello
                 // We don't remove the possible move in the datas, because we will change the player and compute the moves directly after
 
                 //go to 3.
-                ChangePlayer();
+                GameStateChange();
+
+                //Console test
+                Console.WriteLine("Black Timer : {0}", data.BlackTimerStr);
+                Console.WriteLine("White Timer : {0}", data.WhiteTimerStr);
+                Console.WriteLine("Black Score : {0}", data.BlackScoreStr);
+                Console.WriteLine("White Score : {0}", data.WhiteScoreStr);
                 //go to 1.
                 ComputePossibleMoves();
 
@@ -202,27 +208,55 @@ namespace Othello
             this.currentPlayer = currentPlayer == BoardState.PLACED_WHITE ? BoardState.PLACED_BLACK : BoardState.PLACED_WHITE;
         }
 
+        /* 3.2 TIMER MANAGEMENT */
+        public void TimerManager()
+        {                
+            if (currentGameState != GameState.GAME_END)
+            {
+                if (currentGameState == GameState.WHITE_TURN)
+                {
+                    data.StopTimer(GameState.BLACK_TURN);
+                    data.StartTimer(GameState.WHITE_TURN);
+                }
+
+                else if (currentGameState == GameState.BLACK_TURN)
+                {
+                    data.StopTimer(GameState.WHITE_TURN);
+                    data.StartTimer(GameState.BLACK_TURN);
+                }
+            }
+            else
+            {
+                data.StopTimer(GameState.BLACK_TURN);
+                data.StopTimer(GameState.WHITE_TURN);
+            }
+        }
+
         /* 3.2 GAME STATE CHANGE */
         public void GameStateChange()
         {
+            ChangePlayer();
+
             if (currentGameState == GameState.INIT)
+            {
                 currentGameState = GameState.BLACK_TURN;
+            }
 
             else if (data.TotalWhite != 0 && currentGameState == GameState.BLACK_TURN)
             {
                 data.TotalBlack--;
-
                 currentGameState = GameState.WHITE_TURN;
             }
 
             else if (data.TotalWhite != 0 && currentGameState == GameState.WHITE_TURN)
             {
                 data.TotalWhite--;
-
                 currentGameState = GameState.BLACK_TURN;
             }
             else if (data.TotalWhite == 0 && data.TotalBlack == 0)
                 currentGameState = GameState.GAME_END;
+
+            TimerManager();
         }
         
         /* GET GAME STATE */

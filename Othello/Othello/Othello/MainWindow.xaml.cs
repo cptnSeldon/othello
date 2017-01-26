@@ -64,42 +64,7 @@ namespace Othello
                 w_discs.Children.Add(disc);
             }
         }
-        
-        //TODO : adapt to disc placement
-        /*
-         in xaml
-         <Button x:Name="Update_button" Height="50" Width="50">
-            Click="Update_button_Click">
-         </Button>
-         
-         here : 
-         private void Update_button_Click(object sender, RoutedEventArgs e)
-        {
-            
-            if (currentGameState != GameState.GAME_END)
-            {
-                if (currentGameState == GameState.WHITE_TURN)
-                {
-                    data.StopTimer(GameState.BLACK_TURN);
-                    data.StartTimer(GameState.WHITE_TURN);
-                }
-                    
-                else if (currentGameState == GameState.BLACK_TURN)
-                {
-                    data.StopTimer(GameState.WHITE_TURN);
-                    data.StartTimer(GameState.BLACK_TURN);
-                }
-                    
-                UpdatePanel();
-            }
-            else
-            {
-                data.StopTimer(GameState.BLACK_TURN);
-                data.StopTimer(GameState.WHITE_TURN);
-            }
-        }
-             */
-        
+               
         /* GRID INITIALIZATION */
         private void InitializeGrid()
         {

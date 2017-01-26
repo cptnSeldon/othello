@@ -62,7 +62,6 @@ namespace Othello
             InitializeTimer();
             BlackTimerStr = "00:00:00";
             WhiteTimerStr = "00:00:00";
-
         }
 
         #region TIMER METHODS
