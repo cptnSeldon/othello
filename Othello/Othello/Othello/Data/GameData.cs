@@ -13,9 +13,16 @@ namespace Othello
 {
     #region BOARD & GAME STATE
     public enum GameState { INIT, BLACK_TURN, WHITE_TURN, GAME_END };   //game main loop
-    public enum BoardState { PLAYABLE_BLACK, PLAYABLE_WHITE, HIDDEN, PLACED_BLACK, PLACED_WHITE };  // the grid is populated with states
+    [Serializable]
+    public enum BoardState {
+        PLAYABLE_BLACK=0,
+        PLAYABLE_WHITE=1,
+        HIDDEN=2,
+        PLACED_BLACK=3,
+        PLACED_WHITE=4 };  // the grid is populated with states
     #endregion
     
+    [Serializable]
     public class GameData : INotifyPropertyChanged //each new event notifies data to be changed according to the engine
     {
 

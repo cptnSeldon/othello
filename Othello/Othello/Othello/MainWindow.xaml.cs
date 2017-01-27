@@ -105,13 +105,6 @@ namespace Othello
             }
         }
 
-        
-        private void DiscView_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            engine.playMove(Grid.GetRow((DiscView)sender), Grid.GetColumn((DiscView)sender), true);
-            UpdateBoard(engine.getGameState());
-        }
-
         /* UPDATE BOARD */
         public void UpdateBoard(BoardState[,] board)
         {
@@ -123,6 +116,72 @@ namespace Othello
                 }
             }
         }
+
+        #region EVENT HANDLERS
+        /* DISCS ON BOARD */
+        private void DiscView_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            engine.playMove(Grid.GetRow((DiscView)sender), Grid.GetColumn((DiscView)sender), true);
+            UpdateBoard(engine.getGameState());
+        }
+        /* MENU 1 : EXIT */
+        private void AppExit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+        /* MENU 2 : SAVE GAME */
+        private void SaveGame_Click(object sender, RoutedEventArgs e)
+        {
+            //open file dialog
+            Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
+            //setting filter
+            dialog.DefaultExt = ".txt";
+            //show dialog call
+            Nullable<bool> result = dialog.ShowDialog();
+            //get selected file name
+            if (result == true)
+            {
+                string filename = dialog.FileName;
+                engine.Save(filename);
+            }  
+        }
+        /* MENU 3 : NEW GAME */
+        private void NewGame_Click(object sender, RoutedEventArgs e)
+        {
+            engine.StartNewGame();
+        }
+        /* MENU 4 : LOAD GAME */
+        private void LoadGame_Click(object sender, RoutedEventArgs e)
+        {
+            //open file dialog
+            Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
+            //setting filter
+            dialog.DefaultExt = ".txt";
+            //show dialog call
+            Nullable<bool> result = dialog.ShowDialog();
+            //get selected file name
+            if (result == true)
+            {
+                string filename = dialog.FileName;
+                engine.Load(filename);
+            }
+        }
+        /* MENU 5 : ABOUT */
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(this, "Welcome,\n"+
+                "If you aren't familiar with the game rules yet, this link may help you :\n"+
+                "\n\t http://radagast.se/othello/Help/strategy.html \n\n"+
+                "Have fun!\n\n\n" +
+                "Designed and implemented by Julia Németh and Axel Roy.\n"+
+                "HE-ARC, 3dlm-ab, January 2017",
+                "Quick hello from the dev's"
+                );
+        }
         #endregion
+
+        #endregion
+
+
     }
 }

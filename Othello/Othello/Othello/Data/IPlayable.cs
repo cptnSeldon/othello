@@ -68,6 +68,11 @@ namespace Othello
         BoardState[,] getGameState();
         int getTotalBlack();
         int getTotalWhite();
+        /* MENU */
+        void StartNewGame();
+        void Save(string path);
+        void Load(string path);
+
         #endregion
     }
 }

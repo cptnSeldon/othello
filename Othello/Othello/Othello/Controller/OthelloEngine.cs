@@ -5,9 +5,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Othello
 {
@@ -18,7 +21,7 @@ namespace Othello
         //data
         GameState currentGameState;
         BoardState currentPlayer;
-        public GameData data { get; }
+        public GameData data { private set; get; }
         
         private Stack<int[,]> history;
         // clé: string représentant un mouvement, exemple : "07"
@@ -31,6 +34,12 @@ namespace Othello
         #region GAME LOOP
         /* 0. Initialization */
         public OthelloEngine()
+        {
+            StartNewGame();
+        }
+
+        /* 0.1 START NEW GAME */
+        public void StartNewGame()
         {
             /** DATA INITIALIZATION */
             data = new GameData();
@@ -245,6 +254,7 @@ namespace Othello
             else if (data.TotalWhite != 0 && currentGameState == GameState.BLACK_TURN)
             {
                 data.TotalBlack--;
+                
                 currentGameState = GameState.WHITE_TURN;
             }
 
@@ -298,6 +308,53 @@ namespace Othello
 
         /* REMAINING WHITE MOVES PANEL */
         public int getTotalWhite() { return data.TotalWhite; }
+        #endregion
+
+        #region MENU
+        public void Save(string filePath)
+        {
+            WriteToXmlFile<GameData>(filePath, data);
+        }
+        public void Load(string filePath)
+        {
+            data = ReadFromXmlFile<GameData>(filePath);
+        }
+        /* SAVE TO XML FILE */
+        public void WriteToXmlFile<GameData>(string filePath, GameData objectToWrite, bool append = false) where GameData : new()
+        {
+            System.IO.TextWriter writer = null;
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(GameData));
+                using (writer = new StreamWriter(filePath, append))
+                {
+                    serializer.Serialize(writer, objectToWrite);
+                }
+            }
+            finally
+            {
+                if (writer != null)
+                    writer.Close();
+            }
+        }
+        /* READ FROM XML FILE */
+        public GameData ReadFromXmlFile<GameData>(string filePath) where GameData : new()
+        {
+            TextReader reader = null;
+            try
+            {
+                var serializer = new XmlSerializer(typeof(GameData));
+                using (reader = new StreamReader(filePath))
+                {
+                    return (GameData)serializer.Deserialize(reader);
+                }
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+            }
+        }
         #endregion
 
         #region IA

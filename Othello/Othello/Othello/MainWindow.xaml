@@ -21,7 +21,24 @@
         <!-- MENU : main panel  : vertical -->
         <StackPanel x:Name="menu_main_panel" Height="30" 
                     VerticalAlignment="Top"
-                    Grid.Row="0"/>
+                    Grid.Row="0">
+            <Menu Width="Auto" Height="20">
+                <!-- FILE -->
+                <MenuItem Header="_Game options">
+                    <MenuItem x:Name="NewGame" Header="_New Game" Click="NewGame_Click"/>
+                    <MenuItem x:Name="SaveGame" Header="_Save Game" Click="SaveGame_Click"/>
+                    <MenuItem x:Name="LoadGame" Header="_Load Game" Click="LoadGame_Click"/>
+                    <Separator/>
+                    <MenuItem x:Name="AppExit" Header="E_xit"  Click="AppExit_Click"/>
+                </MenuItem>
+                <!-- EXIT -->
+                <MenuItem Header="_Help">
+                    <MenuItem x:Name="About" Header="_About" Click="About_Click"/>
+                </MenuItem>
+            </Menu>
+            
+            
+        </StackPanel>
         <!-- BLACK : main panel : vertical -->
         <Grid x:Name="b_main_panel" Height="50" 
               VerticalAlignment="Top"
