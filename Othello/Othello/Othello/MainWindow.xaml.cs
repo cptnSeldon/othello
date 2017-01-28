@@ -133,9 +133,11 @@ namespace Othello
         private void SaveGame_Click(object sender, RoutedEventArgs e)
         {
             //open file dialog
-            Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
+            Microsoft.Win32.SaveFileDialog dialog = new Microsoft.Win32.SaveFileDialog();
             //setting filter
-            dialog.DefaultExt = ".txt";
+            dialog.DefaultExt = ".json";
+            dialog.Filter = "JSON data format (.json)|*.json"; // Filter files by extension
+
             //show dialog call
             Nullable<bool> result = dialog.ShowDialog();
             //get selected file name
