@@ -127,14 +127,12 @@ namespace Othello
             {
                 for (int j = line - 1; j <= line + 1; j++)
                 {
-                    try
-                    {
+                    if (i < GameData.BOARDSIZE &&
+                        i > 0 &&
+                        j < GameData.BOARDSIZE &&
+                        j > 0) { 
                         if (data.StateArray[i, j] == opponentColor)
                             neighborhood.Add(new Tuple<int, int>(i, j));
-                    }
-                    catch (Exception)
-                    {
-                        // si la case n'existe pas on ne fait rien
                     }
                 }
             }
@@ -152,22 +150,21 @@ namespace Othello
                 int x = neighborn.Item1;
                 int y = neighborn.Item2;
                 List<Tuple<int, int>> temp = new List<Tuple<int, int>>();
-                try
-                {
-                    while (data.StateArray[x, y] == opponentColor)
-                    {
+
+                while ((x < GameData.BOARDSIZE - 1 &&
+                        x > 0 &&
+                        y < GameData.BOARDSIZE -1 &&
+                        y > 0) &&
+                        data.StateArray[x, y] == opponentColor)
+                    { 
                         temp.Add(new Tuple<int, int>(x, y));
                         x = x + dx;
                         y = y + dy;
                     }
 
-                    if (data.StateArray[x, y] == myColor)
-                        catchedTiles.AddRange(temp);
-                }
-                catch (Exception)
-                {
-                    // if out of the grid
-                }
+                if (data.StateArray[x, y] == myColor)
+                    catchedTiles.AddRange(temp);
+
             }
             if (catchedTiles.Count == 0)
                 return;
@@ -206,6 +203,14 @@ namespace Othello
                 Console.WriteLine("White Score : {0}", data.WhiteScoreStr);
                 //go to 1.
                 ComputePossibleMoves();
+
+                // If there's no playable move for the player, we switch again
+                if (possibleMoves.Count == 0)
+                {
+                    GameStateChange();
+                    ComputePossibleMoves();
+                    Console.WriteLine("Pas de coups possibles, deux fois le même joueur");
+                }
 
                 return true;
             }
@@ -266,7 +271,10 @@ namespace Othello
                 currentGameState = GameState.BLACK_TURN;
             }
             else if (data.TotalWhite == 0 && data.TotalBlack == 0)
+            {
                 currentGameState = GameState.GAME_END;
+                Console.WriteLine("Fin du jeu");
+            }
 
             TimerManager();
         }
