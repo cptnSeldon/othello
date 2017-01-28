@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using Newtonsoft.Json.Linq;
+
 
 namespace Othello
 {
@@ -189,9 +191,9 @@ namespace Othello
                 {
                     //update board
                     data.StateArray[move.Item1, move.Item2] = currentPlayer;
-                    //update score
-                    UpdateScore();
                 }
+                //update score
+                UpdateScore();
                 // We don't remove the possible move in the datas, because we will change the player and compute the moves directly after
 
                 //go to 3.
@@ -300,7 +302,6 @@ namespace Othello
 
             data.BlackScoreStr = blackScore.ToString();
             data.WhiteScoreStr = whiteScore.ToString();
-
         }
 
         /* REMAINING BLACK MOVES PANEL */
@@ -313,48 +314,82 @@ namespace Othello
         #region MENU
         public void Save(string filePath)
         {
-            WriteToXmlFile<GameData>(filePath, data);
+            save(filePath);
         }
         public void Load(string filePath)
         {
-            data = ReadFromXmlFile<GameData>(filePath);
+            load(filePath);
         }
-        /* SAVE TO XML FILE */
-        public void WriteToXmlFile<GameData>(string filePath, GameData objectToWrite, bool append = false) where GameData : new()
+
+        public void save(string filename)
         {
-            System.IO.TextWriter writer = null;
-            try
+
+            JObject playersObject = new JObject();
+
+            playersObject.Add("scoreWhite", data.WhiteScoreStr);
+            playersObject.Add("scoreBlack", data.BlackScoreStr);
+
+            playersObject.Add("timerBlack", data.BlackElapsedTime);
+            playersObject.Add("timerWhite", data.WhiteElapsedTime);
+
+            playersObject.Add("totalWhite", data.TotalWhite);
+            playersObject.Add("totalBlack", data.TotalBlack);
+
+            JArray boardObject = new JArray();
+
+            for (int column = 0; column < GameData.BOARDSIZE; column++)
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(GameData));
-                using (writer = new StreamWriter(filePath, append))
+                for (int line = 0; line < GameData.BOARDSIZE; line++)
                 {
-                    serializer.Serialize(writer, objectToWrite);
+                    JObject entry = new JObject();
+                    entry.Add("X", line);
+                    entry.Add("Y", column);
+                    entry.Add("Value", data.StateArray[column,line].ToString());
+                    boardObject.Add(entry);
                 }
             }
-            finally
-            {
-                if (writer != null)
-                    writer.Close();
-            }
+
+            JObject gameObject = new JObject();
+            gameObject.Add("Players", playersObject);
+            gameObject.Add("Board", boardObject);
+            gameObject.Add("isWhiteTurn", currentPlayer == BoardState.PLACED_BLACK ? "black" : "white");
+
+            File.WriteAllText(filename, gameObject.ToString());
         }
-        /* READ FROM XML FILE */
-        public GameData ReadFromXmlFile<GameData>(string filePath) where GameData : new()
+
+        
+        public void load(string filename)
         {
-            TextReader reader = null;
-            try
+            JObject gameObject = JObject.Parse(File.ReadAllText(filename));
+
+            var playersObject = (JObject)gameObject["Players"];
+
+            data.WhiteScoreStr = (string)playersObject["scoreWhite"];
+            data.BlackScoreStr = (string)playersObject["scoreBlack"];
+
+            data.WhiteElapsedTime = (int)playersObject["timerWhite"];
+            data.BlackElapsedTime = (int)playersObject["timerBlack"];
+
+            data.TotalBlack = (int)playersObject["totalBlack"];
+            data.TotalWhite = (int)playersObject["totalWhite"];
+
+            string playerTurn= (string)gameObject["isWhiteTurn"];
+            currentPlayer = playerTurn == "white" ? BoardState.PLACED_WHITE : BoardState.PLACED_BLACK;
+
+            foreach (var tile in gameObject["Board"])
             {
-                var serializer = new XmlSerializer(typeof(GameData));
-                using (reader = new StreamReader(filePath))
-                {
-                    return (GameData)serializer.Deserialize(reader);
-                }
+                int line = (int)tile["X"];
+                int column = (int)tile["Y"];
+                string value = (string)tile["Value"];
+                BoardState state = (BoardState)Enum.Parse(typeof(BoardState), value, true);
+
+                data.StateArray[column, line] = state;
             }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-            }
+            ComputePossibleMoves();
         }
+        
+
+
         #endregion
 
         #region IA

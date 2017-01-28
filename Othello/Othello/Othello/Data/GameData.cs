@@ -6,8 +6,7 @@ using System.Threading;
 using System.Windows.Threading;
 using System.ComponentModel;
 using System.Windows.Input;
-
-
+using System.Xml.Serialization;
 
 namespace Othello
 {
@@ -21,8 +20,7 @@ namespace Othello
         PLACED_BLACK=3,
         PLACED_WHITE=4 };  // the grid is populated with states
     #endregion
-    
-    [Serializable]
+
     public class GameData : INotifyPropertyChanged //each new event notifies data to be changed according to the engine
     {
 
@@ -32,15 +30,22 @@ namespace Othello
 
         #region ATTRIBUTES
         //BOARD
-        public BoardState[,] StateArray { get; set; }
+        private BoardState[,] stateArray;
+        public BoardState[,] StateArray {
+            get { return stateArray; }
+            set { stateArray = value; }
+        }
+
         //SCORE
         private string blackScoreStr;
         private string whiteScoreStr;
+
         public string BlackScoreStr
         {
             get { return blackScoreStr; }
             set { blackScoreStr = value; OnPropertyChanged("BlackScoreStr"); }
         }
+
         public string WhiteScoreStr {
             get { return whiteScoreStr; }
             set { whiteScoreStr = value; OnPropertyChanged("WhiteScoreStr"); }
@@ -52,10 +57,20 @@ namespace Othello
         public DispatcherTimer blackTimer;
         public string BlackTimerStr { get; set; }
         private int blackElapsedTime = 0;
+        public int BlackElapsedTime
+        {
+            get { return blackElapsedTime; }
+            set { blackElapsedTime = value; }
+        }
 
         public DispatcherTimer whiteTimer;
         public string WhiteTimerStr { get; set; }
         private int whiteElapsedTime = 0;
+        public int WhiteElapsedTime
+        {
+            get { return whiteElapsedTime; }
+            set { whiteElapsedTime = value; }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
@@ -130,6 +145,7 @@ namespace Othello
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
         #endregion
     }
 }
