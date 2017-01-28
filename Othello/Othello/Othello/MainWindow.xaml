@@ -36,14 +36,25 @@
                     <MenuItem x:Name="About" Header="_About" Click="About_Click"/>
                 </MenuItem>
             </Menu>
-            
-            
+
+
         </StackPanel>
         <!-- BLACK : main panel : vertical -->
         <Grid x:Name="b_main_panel" Height="50" 
               VerticalAlignment="Top"
-              Background="Black"
               Grid.Row="1">
+            <Grid.Background>
+                <ImageBrush ImageSource="Resources/woodpanel.jpg">
+                    <ImageBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                            <RotateTransform Angle="270" CenterY="0.5" CenterX="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </ImageBrush.RelativeTransform>
+                </ImageBrush>
+            </Grid.Background>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -52,6 +63,9 @@
             <StackPanel x:Name="b_info" Height="50" 
                         Grid.Column="0"
                         Orientation="Vertical">
+                <StackPanel.Background>
+                    <ImageBrush/>
+                </StackPanel.Background>
                 <!-- CHRONO -->
                 <StackPanel x:Name="b_chrono" Height="25" Orientation="Vertical" 
                             VerticalAlignment="Top">
@@ -93,9 +107,20 @@
         </Grid>
         <!-- WHITE : main panel  -->
         <Grid x:Name="w_main_panel" Height="50" 
-              VerticalAlignment="Top" 
-              Background="Black"
+              VerticalAlignment="Top"
               Grid.Row="3">
+            <Grid.Background>
+                <ImageBrush ImageSource="Resources/woodpanel.jpg">
+                    <ImageBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                            <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </ImageBrush.RelativeTransform>
+                </ImageBrush>
+            </Grid.Background>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />

@@ -199,12 +199,17 @@ namespace Othello
                     //update board
                     data.StateArray[move.Item1, move.Item2] = currentPlayer;
                 }
+
+                if(currentPlayer == BoardState.PLACED_BLACK)
+                    data.TotalBlack--;
+                else
+                    data.TotalWhite--;
+
                 UpdateScore();
                 // We don't remove the possible move in the datas, because we will change the player and compute the moves directly after
                 GameStateChange();
                 //go to 1.
                 ComputePossibleMoves();
-
 
                 //Console test
                 Console.WriteLine("Black Timer : {0}", data.BlackTimerStr);
@@ -218,6 +223,12 @@ namespace Othello
                     GameStateChange();
                     ComputePossibleMoves();
                     Console.WriteLine("Pas de coups possibles, deux fois le même joueur");
+                }
+                else  if (data.TotalWhite == 0 && data.TotalBlack == 0
+                && (nextPossibleMoves == 0 && oldTotalPossibleMoves == 0))
+                {
+                    currentGameState = GameState.GAME_END;
+                    Console.WriteLine("Fin du jeu");
                 }
 
                 return true;
@@ -271,25 +282,20 @@ namespace Othello
                 currentGameState = GameState.BLACK_TURN;
             }
             //BLACK TURN -> WHITE TURN
-            else if (data.TotalWhite != 0 
+            else if (data.TotalBlack != 0 
                 && currentGameState == GameState.BLACK_TURN
-                || nextPossibleMoves == 0)
+                || nextPossibleMoves == 0 && oldTotalPossibleMoves != 0
+                && currentGameState == GameState.BLACK_TURN)
             {
-                data.TotalBlack--;
                 currentGameState = GameState.WHITE_TURN;
             }
             //WHITE TURN -> BLACK TURN
             else if (data.TotalWhite != 0 
                 && currentGameState == GameState.WHITE_TURN
-                || nextPossibleMoves == 0)
+                || nextPossibleMoves == 0 && oldTotalPossibleMoves != 0
+                && currentGameState == GameState.WHITE_TURN)
             {
-                data.TotalWhite--;
                 currentGameState = GameState.BLACK_TURN;
-            }
-            else if (data.TotalWhite == 0 && data.TotalBlack == 0)
-            {
-                currentGameState = GameState.GAME_END;
-                Console.WriteLine("Fin du jeu");
             }
 
             TimerManager();
@@ -304,6 +310,11 @@ namespace Othello
 
 
         #endregion
+
+        public BoardState GetCurrentPlayer()
+        {
+            return currentPlayer;
+        }
 
         #region SCORE & SIDE DISCS MANAGEMENT
         public void UpdateScore()
@@ -339,18 +350,9 @@ namespace Othello
         #endregion
 
         #region MENU
+        /* SAVE TO JSON FILE */
         public void Save(string filePath)
         {
-            save(filePath);
-        }
-        public void Load(string filePath)
-        {
-            load(filePath);
-        }
-
-        public void save(string filename)
-        {
-
             JObject playersObject = new JObject();
 
             playersObject.Add("scoreWhite", data.WhiteScoreStr);
@@ -371,7 +373,7 @@ namespace Othello
                     JObject entry = new JObject();
                     entry.Add("X", line);
                     entry.Add("Y", column);
-                    entry.Add("Value", data.StateArray[column,line].ToString());
+                    entry.Add("Value", data.StateArray[column, line].ToString());
                     boardObject.Add(entry);
                 }
             }
@@ -381,13 +383,12 @@ namespace Othello
             gameObject.Add("Board", boardObject);
             gameObject.Add("isWhiteTurn", currentPlayer == BoardState.PLACED_BLACK ? "black" : "white");
 
-            File.WriteAllText(filename, gameObject.ToString());
+            File.WriteAllText(filePath, gameObject.ToString());
         }
-
-        
-        public void load(string filename)
+        /* LOAD FROM JSON FILE */
+        public void Load(string filePath)
         {
-            JObject gameObject = JObject.Parse(File.ReadAllText(filename));
+            JObject gameObject = JObject.Parse(File.ReadAllText(filePath));
 
             var playersObject = (JObject)gameObject["Players"];
 
@@ -400,9 +401,9 @@ namespace Othello
             data.TotalBlack = (int)playersObject["totalBlack"];
             data.TotalWhite = (int)playersObject["totalWhite"];
 
-            string playerTurn= (string)gameObject["isWhiteTurn"];
+            string playerTurn = (string)gameObject["isWhiteTurn"];
             currentPlayer = playerTurn == "white" ? BoardState.PLACED_WHITE : BoardState.PLACED_BLACK;
-
+            TimerManager();
             foreach (var tile in gameObject["Board"])
             {
                 int line = (int)tile["X"];
@@ -415,8 +416,6 @@ namespace Othello
             ComputePossibleMoves();
         }
         
-
-
         #endregion
 
         #region IA

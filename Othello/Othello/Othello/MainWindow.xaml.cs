@@ -33,14 +33,25 @@ namespace Othello
         {
             engine = new OthelloEngine();
             //window init
+            StartNewGame();
+        }
+
+        /* START NEW GAME */
+        public void StartNewGame()
+        {
             InitializeComponent();
+
             //panels init
+            ClearPanels();
             InitializePanels();
+
             black_label.DataContext = (engine as OthelloEngine).data;
             white_label.DataContext = (engine as OthelloEngine).data;
             b_score_label.DataContext = (engine as OthelloEngine).data;
             w_score_label.DataContext = (engine as OthelloEngine).data;
             //grid init
+            ClearGrid();
+            ClearBoard();
             InitializeGrid();
             InitializeBoard();
             //update board
@@ -66,7 +77,13 @@ namespace Othello
                 w_discs.Children.Add(disc);
             }
         }
-               
+
+        /* CLEAR REMAINING DISCS' PANEL */
+        public void ClearPanels()
+        {
+            b_discs.Children.Clear();
+            w_discs.Children.Clear();
+        }
         /* GRID INITIALIZATION */
         private void InitializeGrid()
         {
@@ -81,7 +98,14 @@ namespace Othello
                 board_grid.RowDefinitions.Add(new RowDefinition());
             }
         }
-        
+
+        /* CLEAR GRID */
+        private void ClearGrid()
+        {
+            board_grid.ColumnDefinitions.Clear();
+            board_grid.RowDefinitions.Clear();
+        }
+
         /* BOARD INITIALIZATION */
         private void InitializeBoard()
         {
@@ -105,6 +129,12 @@ namespace Othello
             }
         }
 
+        /* CLEAR BOARD */
+        public void ClearBoard()
+        {
+            board_grid.Children.Clear();
+        }
+
         /* UPDATE BOARD */
         public void UpdateBoard(BoardState[,] board)
         {
@@ -114,6 +144,15 @@ namespace Othello
                 {
                     placedDiscs[row, column].SetState(board[row, column]);
                 }
+            }
+            while (b_discs.Children.Count > engine.getTotalBlack())
+            {
+                b_discs.Children.RemoveAt(0);
+            }
+
+            while (w_discs.Children.Count > engine.getTotalWhite())
+            {
+                w_discs.Children.RemoveAt(0);
             }
         }
 
@@ -150,7 +189,9 @@ namespace Othello
         /* MENU 3 : NEW GAME */
         private void NewGame_Click(object sender, RoutedEventArgs e)
         {
+            //engine = new OthelloEngine();
             engine.StartNewGame();
+            StartNewGame();
         }
         /* MENU 4 : LOAD GAME */
         private void LoadGame_Click(object sender, RoutedEventArgs e)
@@ -167,6 +208,7 @@ namespace Othello
                 string filename = dialog.FileName;
                 engine.Load(filename);
             }
+            StartNewGame();
         }
         /* MENU 5 : ABOUT */
         private void About_Click(object sender, RoutedEventArgs e)

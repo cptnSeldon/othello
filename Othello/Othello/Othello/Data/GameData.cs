@@ -113,30 +113,52 @@ namespace Othello
         public void StartTimer(GameState currentState)
         {
             if (currentState == GameState.BLACK_TURN)
+            {
                 blackTimer.Start();
+                BlackTimerUpdate();
+            }
             else if (currentState == GameState.WHITE_TURN)
+            {
                 whiteTimer.Start();
+                WhiteTimerUpdate();
+            }
         }
 
         //Stop Timer
         public void StopTimer(GameState currentState)
         {
             if (currentState == GameState.BLACK_TURN)
+            {
                 blackTimer.Stop();
+                BlackTimerUpdate();
+            }
             else if (currentState == GameState.WHITE_TURN)
+            {
                 whiteTimer.Stop();
+                WhiteTimerUpdate();
+            }
         }
 
         //Tick management
         void BlackTimerTick(object sender, EventArgs e)
         {
-            BlackTimerStr = TimeSpan.FromSeconds(++blackElapsedTime).ToString();
+            ++blackElapsedTime;
+            BlackTimerUpdate();
+        }
+       private  void BlackTimerUpdate()
+        {
+            BlackTimerStr = TimeSpan.FromSeconds(blackElapsedTime).ToString();
             OnPropertyChanged("BlackTimerStr");
         }
 
         void WhiteTimerTick(object sender, EventArgs e)
         {
-            WhiteTimerStr = TimeSpan.FromSeconds(++whiteElapsedTime).ToString();
+            whiteElapsedTime++;
+            WhiteTimerUpdate();
+        }
+        void WhiteTimerUpdate()
+        {
+            WhiteTimerStr = TimeSpan.FromSeconds(whiteElapsedTime).ToString();
             OnPropertyChanged("WhiteTimerStr");
         }
         #endregion
