@@ -24,6 +24,8 @@ namespace Othello
         GameState currentGameState;
         BoardState currentPlayer;
         public GameData data { private set; get; }
+        int oldTotalPossibleMoves;
+        int nextPossibleMoves;
         
         private Stack<int[,]> history;
         // clé: string représentant un mouvement, exemple : "07"
@@ -45,12 +47,14 @@ namespace Othello
         {
             /** DATA INITIALIZATION */
             data = new GameData();
-            currentGameState = GameState.BLACK_TURN;
+            currentGameState = GameState.INIT;
             currentPlayer = BoardState.PLACED_BLACK;
+            TimerManager();
 
             history = new Stack<int[,]>();
             possibleMoves = new Dictionary<String, List<Tuple<int, int>>>();
-
+            oldTotalPossibleMoves = possibleMoves.Count;
+            nextPossibleMoves = -1;
             /** BOARD INITIALIZATION */
             //initialize all to hidden state
             for (int row = 0; row < GameData.BOARDSIZE; row++)
@@ -74,6 +78,8 @@ namespace Othello
         /* 1.1 CHECK POSSIBLE MOVES */
         public void ComputePossibleMoves()
         {
+            //possible move history step 1
+            oldTotalPossibleMoves = nextPossibleMoves;
             //clear old moves list
             possibleMoves.Clear();
 
@@ -91,6 +97,9 @@ namespace Othello
                     computeMove(column, line);
                 }
             }
+            //possible move history step 2
+            nextPossibleMoves = possibleMoves.Count;
+            Console.WriteLine("Moves : \nold : {0}\nnew : {1}", oldTotalPossibleMoves, nextPossibleMoves);
         }
 
         /* 1.2 CHECK MOVE'S VALIDITY */
@@ -170,6 +179,7 @@ namespace Othello
                 return;
 
             possibleMoves.Add(tupleToString(column, line), catchedTiles);
+            
             data.StateArray[column, line] = currentPlayer == BoardState.PLACED_WHITE ? BoardState.PLAYABLE_WHITE : BoardState.PLAYABLE_BLACK;
 
             return;
@@ -189,20 +199,18 @@ namespace Othello
                     //update board
                     data.StateArray[move.Item1, move.Item2] = currentPlayer;
                 }
-                //update score
                 UpdateScore();
                 // We don't remove the possible move in the datas, because we will change the player and compute the moves directly after
-
-                //go to 3.
                 GameStateChange();
+                //go to 1.
+                ComputePossibleMoves();
+
 
                 //Console test
                 Console.WriteLine("Black Timer : {0}", data.BlackTimerStr);
                 Console.WriteLine("White Timer : {0}", data.WhiteTimerStr);
                 Console.WriteLine("Black Score : {0}", data.BlackScoreStr);
                 Console.WriteLine("White Score : {0}", data.WhiteScoreStr);
-                //go to 1.
-                ComputePossibleMoves();
 
                 // If there's no playable move for the player, we switch again
                 if (possibleMoves.Count == 0)
@@ -229,19 +237,19 @@ namespace Othello
         {                
             if (currentGameState != GameState.GAME_END)
             {
-                if (currentGameState == GameState.WHITE_TURN)
+                if (currentPlayer == BoardState.PLACED_WHITE)
                 {
                     data.StopTimer(GameState.BLACK_TURN);
                     data.StartTimer(GameState.WHITE_TURN);
                 }
 
-                else if (currentGameState == GameState.BLACK_TURN)
+                else if (currentPlayer == BoardState.PLACED_BLACK)
                 {
                     data.StopTimer(GameState.WHITE_TURN);
                     data.StartTimer(GameState.BLACK_TURN);
                 }
             }
-            else
+            if (currentGameState == GameState.GAME_END)
             {
                 data.StopTimer(GameState.BLACK_TURN);
                 data.StopTimer(GameState.WHITE_TURN);
@@ -251,21 +259,29 @@ namespace Othello
         /* 3.2 GAME STATE CHANGE */
         public void GameStateChange()
         {
-            ChangePlayer();
 
+            Console.WriteLine("Current game state {0}", currentGameState);
+            Console.WriteLine("Total : {0} ", data.TotalBlack + data.TotalWhite);
+            ChangePlayer();
+            TimerManager();
+
+            //INIT -> BLACK TURN
             if (currentGameState == GameState.INIT)
             {
                 currentGameState = GameState.BLACK_TURN;
             }
-
-            else if (data.TotalWhite != 0 && currentGameState == GameState.BLACK_TURN)
+            //BLACK TURN -> WHITE TURN
+            else if (data.TotalWhite != 0 
+                && currentGameState == GameState.BLACK_TURN
+                || nextPossibleMoves == 0)
             {
                 data.TotalBlack--;
-                
                 currentGameState = GameState.WHITE_TURN;
             }
-
-            else if (data.TotalWhite != 0 && currentGameState == GameState.WHITE_TURN)
+            //WHITE TURN -> BLACK TURN
+            else if (data.TotalWhite != 0 
+                && currentGameState == GameState.WHITE_TURN
+                || nextPossibleMoves == 0)
             {
                 data.TotalWhite--;
                 currentGameState = GameState.BLACK_TURN;
@@ -277,6 +293,7 @@ namespace Othello
             }
 
             TimerManager();
+
         }
         
         /* GET GAME STATE */
@@ -284,6 +301,8 @@ namespace Othello
         {
             return data.StateArray;
         }
+
+
         #endregion
 
         #region SCORE & SIDE DISCS MANAGEMENT
