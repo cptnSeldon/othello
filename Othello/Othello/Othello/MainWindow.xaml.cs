@@ -145,12 +145,14 @@ namespace Othello
                     placedDiscs[row, column].SetState(board[row, column]);
                 }
             }
-            while (b_discs.Children.Count > engine.getTotalBlack())
+            while (b_discs.Children.Count > engine.getTotalBlack()
+                && engine.getTotalBlack() >= 0)
             {
                 b_discs.Children.RemoveAt(0);
             }
 
-            while (w_discs.Children.Count > engine.getTotalWhite())
+            while (w_discs.Children.Count > engine.getTotalWhite()
+                && engine.getTotalWhite() >= 0)
             {
                 w_discs.Children.RemoveAt(0);
             }
