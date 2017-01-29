@@ -160,16 +160,16 @@ namespace Othello
                 int y = neighborn.Item2;
                 List<Tuple<int, int>> temp = new List<Tuple<int, int>>();
 
-                while ((x < GameData.BOARDSIZE - 1 &&
-                        x > 0 &&
-                        y < GameData.BOARDSIZE -1 &&
-                        y > 0) &&
+                while ((x + dx < GameData.BOARDSIZE &&
+                        x + dx > -1 &&
+                        y + dy < GameData.BOARDSIZE &&
+                        y + dy > -1) &&
                         data.StateArray[x, y] == opponentColor)
-                    { 
-                        temp.Add(new Tuple<int, int>(x, y));
-                        x = x + dx;
-                        y = y + dy;
-                    }
+                {
+                    temp.Add(new Tuple<int, int>(x, y));
+                    x = x + dx;
+                    y = y + dy;
+                }
 
                 if (data.StateArray[x, y] == myColor)
                     catchedTiles.AddRange(temp);
@@ -224,11 +224,12 @@ namespace Othello
                     ComputePossibleMoves();
                     Console.WriteLine("Pas de coups possibles, deux fois le même joueur");
                 }
-                else  if (data.TotalWhite == 0 && data.TotalBlack == 0
-                && (nextPossibleMoves == 0 && oldTotalPossibleMoves == 0))
+
+                if (nextPossibleMoves == 0 && oldTotalPossibleMoves == 0)
                 {
                     currentGameState = GameState.GAME_END;
                     Console.WriteLine("Fin du jeu");
+                    TimerManager();
                 }
 
                 return true;
@@ -316,7 +317,13 @@ namespace Othello
             return currentPlayer;
         }
 
+        public GameState GetCurrentGameState()
+        {
+            return currentGameState;
+        }
+
         #region SCORE & SIDE DISCS MANAGEMENT
+        /* UPDATE SCORE */
         public void UpdateScore()
         {
             data.WhiteScoreStr = data.BlackScoreStr = "0";
@@ -341,6 +348,10 @@ namespace Othello
             data.BlackScoreStr = blackScore.ToString();
             data.WhiteScoreStr = whiteScore.ToString();
         }
+
+        /* GET SCORE */
+        public int getWhiteScore() { return Convert.ToInt32(data.WhiteScoreStr); }
+        public int getBlackScore() { return Convert.ToInt32(data.BlackScoreStr); }
 
         /* REMAINING BLACK MOVES PANEL */
         public int getTotalBlack() { return data.TotalBlack; }

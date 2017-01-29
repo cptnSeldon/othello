@@ -164,6 +164,24 @@ namespace Othello
         {
             engine.playMove(Grid.GetRow((DiscView)sender), Grid.GetColumn((DiscView)sender), true);
             UpdateBoard(engine.getGameState());
+            if (engine.GetCurrentGameState() == GameState.GAME_END)
+            {
+                string messageToShow;
+                if (engine.getBlackScore() > engine.getWhiteScore())
+                {
+                    messageToShow = "Player 1 wins with "+engine.getBlackScore()+" points!";
+                }
+                else if(engine.getBlackScore() < engine.getWhiteScore())
+                {
+                    messageToShow = "Player 2 wins with " + engine.getWhiteScore() + " points!";
+                }
+                else
+                {
+                    messageToShow = "Game ended with a draw!";
+                }
+                
+                MessageBox.Show(messageToShow, "End of the game", MessageBoxButton.OK, MessageBoxImage.Information); 
+            }
         }
         /* MENU 1 : EXIT */
         private void AppExit_Click(object sender, RoutedEventArgs e)

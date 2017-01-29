@@ -55,13 +55,13 @@ namespace Othello
         /// Returns the number of white tiles on the board
         /// </summary>
         /// <returns></returns>
-        //int getWhiteScore();
+        int getWhiteScore();
 
         /// <summary>
         /// Returns the number of black tiles
         /// </summary>
         /// <returns></returns>
-        //int getBlackScore();
+        int getBlackScore();
         #endregion
 
         #region CUSTOM METHODS
@@ -69,6 +69,7 @@ namespace Othello
         int getTotalBlack();
         int getTotalWhite();
         BoardState GetCurrentPlayer();
+        GameState GetCurrentGameState();
         /* MENU */
         void StartNewGame();
         void Save(string path);

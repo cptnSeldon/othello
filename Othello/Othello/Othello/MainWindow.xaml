@@ -13,10 +13,10 @@
     <Grid x:Name="main_panel" 
                 VerticalAlignment="Top">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!-- MENU : main panel  : vertical -->
         <StackPanel x:Name="menu_main_panel" Height="30" 
@@ -40,7 +40,7 @@
 
         </StackPanel>
         <!-- BLACK : main panel : vertical -->
-        <Grid x:Name="b_main_panel" Height="50" 
+        <Grid x:Name="b_main_panel"
               VerticalAlignment="Top"
               Grid.Row="1" Width="{Binding ActualWidth, ElementName=board_grid, Mode=OneWay}">
             <Grid.Background>
@@ -60,7 +60,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <!-- INFORMATION : chrono + score -->
-            <StackPanel x:Name="b_info" Height="50" 
+            <StackPanel x:Name="b_info" 
                         Grid.Column="0"
                         Orientation="Vertical" 
                         Width="{Binding ActualWidth/2, ElementName=b_main_panel, Mode=OneWay}">
@@ -68,24 +68,26 @@
                     <ImageBrush/>
                 </StackPanel.Background>
                 <!-- CHRONO -->
-                <StackPanel x:Name="b_chrono" Height="25" Orientation="Vertical" 
-                            VerticalAlignment="Top">
+                <StackPanel x:Name="b_chrono" Orientation="Vertical" 
+                            VerticalAlignment="Top"
+                            Width="{Binding ActualWidth, ElementName=b_info, Mode=OneWay}"
+                            Height="{Binding ActualHeight/2, ElementName=b_info, Mode=OneWay}">
                     <!-- label -->
-                    <Label x:Name="black_label" Content="{Binding BlackTimerStr}"
-                           HorizontalAlignment="Center" VerticalAlignment="Center" 
-                           FontFamily="Consolas" FontSize="20" Foreground="LightGray" >
+                    <Label x:Name="black_label" Content="{Binding BlackTimerStr}" 
+                           FontFamily="Consolas" Foreground="LightGray" VerticalContentAlignment="Bottom" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Top" >
                         <Label.DataContext>
                             <local:GameData/>
                         </Label.DataContext>
                     </Label>
                 </StackPanel>
                 <!-- SCORE -->
-                <StackPanel x:Name="b_score" Height="25" 
-                            Orientation="Vertical" VerticalAlignment="Top">
+                <StackPanel x:Name="b_score" 
+                            Orientation="Vertical" VerticalAlignment="Top"
+                            Width="{Binding ActualWidth, ElementName=b_info, Mode=OneWay}"
+                            Height="{Binding ActualHeight/2, ElementName=b_info, Mode=OneWay}">
                     <!-- label -->
-                    <Label x:Name="b_score_label" Content="{Binding BlackScoreStr}"
-                           HorizontalAlignment="Center" VerticalAlignment="Center" 
-                           FontFamily="Consolas" FontSize="20" Foreground="LightGray">
+                    <Label x:Name="b_score_label" Content="{Binding BlackScoreStr}" 
+                           FontFamily="Consolas" Foreground="LightGray" FontSize="13" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" VerticalAlignment="Top">
                         <Label.DataContext>
                             <local:GameData/>
                         </Label.DataContext>
@@ -93,8 +95,7 @@
                 </StackPanel>
             </StackPanel>
             <!-- REMAINING DISCS -->
-            <StackPanel x:Name="b_discs" 
-                        Height="50"
+            <StackPanel x:Name="b_discs"
                         Width="{Binding ActualWidth/2, ElementName=b_main_panel, Mode=OneWay}"
                         Grid.Column="1"
                         Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -109,7 +110,7 @@
             </Grid.Background>
         </Grid>
         <!-- WHITE : main panel  -->
-        <Grid x:Name="w_main_panel" Height="50" 
+        <Grid x:Name="w_main_panel" 
               VerticalAlignment="Top"
               Grid.Row="3" Width="{Binding ActualWidth, ElementName=board_grid, Mode=OneWay}">
             <Grid.Background>
@@ -129,7 +130,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <!-- REMAINING DISCS -->
-            <StackPanel x:Name="w_discs" Height="50"
+            <StackPanel x:Name="w_discs"
                         Width="{Binding ActualWidth/2, ElementName=w_main_panel, Mode=OneWay}"
                         Grid.Column="0"
                         Orientation="Horizontal"
@@ -144,30 +145,32 @@
                 </StackPanel.RenderTransform>
             </StackPanel>
             <!-- INFORMATION : chrono + score -->
-            <StackPanel x:Name="w_info" Height="50"
+            <StackPanel x:Name="w_info"
                         Width="{Binding ActualWidth/2, ElementName=w_main_panel, Mode=OneWay}"
                         Grid.Column="1"
                         Orientation="Vertical">
                 <!-- chrono -->
-                <StackPanel x:Name="w_chrono" Height="25" 
+                <StackPanel x:Name="w_chrono" 
                             Orientation="Vertical" VerticalAlignment="Top" 
-                            Width="{Binding ActualWidth/2, ElementName=w_info, Mode=OneWay}">
-                    <Label x:Name="white_label" Content="{Binding WhiteTimerStr}" 
-                           VerticalAlignment="Center" HorizontalAlignment="Center"
-                           FontFamily="Consolas" FontSize="20" Foreground="LightGray">
+                            Width="{Binding ActualWidth, ElementName=w_info, Mode=OneWay}"
+                            Height="{Binding ActualHeight/2, ElementName=w_info, Mode=OneWay}">
+                    <Label x:Name="white_label" Content="{Binding WhiteTimerStr}"
+                           FontFamily="Consolas" Foreground="LightGray" VerticalContentAlignment="Bottom" FontSize="13" HorizontalAlignment="Right" VerticalAlignment="Top">
                         <Label.DataContext>
                             <local:GameData/>
                         </Label.DataContext>
                     </Label>
                 </StackPanel>
                 <!-- SCORE -->
-                <StackPanel x:Name="w_score" Height="25" Orientation="Vertical" 
+                <StackPanel x:Name="w_score" Orientation="Vertical" 
                             VerticalAlignment="Top" 
-                            RenderTransformOrigin="0.5,0.5">
+                            Width="{Binding ActualWidth, ElementName=w_info, Mode=OneWay}"
+                            Height="{Binding ActualHeight/2, ElementName=w_info, Mode=OneWay}">
                     <!-- label -->
-                    <Label x:Name="w_score_label" Content="{Binding WhiteScoreStr}" 
-                           VerticalAlignment="Center" HorizontalAlignment="Center"
-                           FontFamily="Consolas" FontSize="20" Foreground="LightGray">
+                    <Label x:Name="w_score_label" Content="{Binding WhiteScoreStr}"
+                           FontFamily="Consolas" 
+                           Foreground="LightGray" 
+                           VerticalContentAlignment="Bottom" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="13">
                         <Label.DataContext>
                             <local:GameData/>
                         </Label.DataContext>
