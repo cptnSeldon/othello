@@ -42,7 +42,7 @@
         <!-- BLACK : main panel : vertical -->
         <Grid x:Name="b_main_panel" Height="50" 
               VerticalAlignment="Top"
-              Grid.Row="1">
+              Grid.Row="1" Width="{Binding ActualWidth, ElementName=board_grid, Mode=OneWay}">
             <Grid.Background>
                 <ImageBrush ImageSource="Resources/woodpanel.jpg">
                     <ImageBrush.RelativeTransform>
@@ -62,7 +62,8 @@
             <!-- INFORMATION : chrono + score -->
             <StackPanel x:Name="b_info" Height="50" 
                         Grid.Column="0"
-                        Orientation="Vertical">
+                        Orientation="Vertical" 
+                        Width="{Binding ActualWidth/2, ElementName=b_main_panel, Mode=OneWay}">
                 <StackPanel.Background>
                     <ImageBrush/>
                 </StackPanel.Background>
@@ -71,7 +72,7 @@
                             VerticalAlignment="Top">
                     <!-- label -->
                     <Label x:Name="black_label" Content="{Binding BlackTimerStr}"
-                           HorizontalAlignment="Right" VerticalAlignment="Top" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center" 
                            FontFamily="Consolas" FontSize="20" Foreground="LightGray" >
                         <Label.DataContext>
                             <local:GameData/>
@@ -83,7 +84,7 @@
                             Orientation="Vertical" VerticalAlignment="Top">
                     <!-- label -->
                     <Label x:Name="b_score_label" Content="{Binding BlackScoreStr}"
-                           HorizontalAlignment="Right" VerticalAlignment="Top" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center" 
                            FontFamily="Consolas" FontSize="20" Foreground="LightGray">
                         <Label.DataContext>
                             <local:GameData/>
@@ -92,9 +93,11 @@
                 </StackPanel>
             </StackPanel>
             <!-- REMAINING DISCS -->
-            <StackPanel x:Name="b_discs" Height="50"
+            <StackPanel x:Name="b_discs" 
+                        Height="50"
+                        Width="{Binding ActualWidth/2, ElementName=b_main_panel, Mode=OneWay}"
                         Grid.Column="1"
-                        Orientation="Horizontal"/>
+                        Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
         <!-- BOARD : grid  -->
         <Grid x:Name="board_grid" 
@@ -108,7 +111,7 @@
         <!-- WHITE : main panel  -->
         <Grid x:Name="w_main_panel" Height="50" 
               VerticalAlignment="Top"
-              Grid.Row="3">
+              Grid.Row="3" Width="{Binding ActualWidth, ElementName=board_grid, Mode=OneWay}">
             <Grid.Background>
                 <ImageBrush ImageSource="Resources/woodpanel.jpg">
                     <ImageBrush.RelativeTransform>
@@ -126,10 +129,11 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <!-- REMAINING DISCS -->
-            <StackPanel x:Name="w_discs" Height="50" 
+            <StackPanel x:Name="w_discs" Height="50"
+                        Width="{Binding ActualWidth/2, ElementName=w_main_panel, Mode=OneWay}"
                         Grid.Column="0"
                         Orientation="Horizontal"
-                        RenderTransformOrigin="0.5,0.5">
+                        RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -141,13 +145,15 @@
             </StackPanel>
             <!-- INFORMATION : chrono + score -->
             <StackPanel x:Name="w_info" Height="50"
+                        Width="{Binding ActualWidth/2, ElementName=w_main_panel, Mode=OneWay}"
                         Grid.Column="1"
                         Orientation="Vertical">
                 <!-- chrono -->
                 <StackPanel x:Name="w_chrono" Height="25" 
-                            Orientation="Vertical" VerticalAlignment="Top">
+                            Orientation="Vertical" VerticalAlignment="Top" 
+                            Width="{Binding ActualWidth/2, ElementName=w_info, Mode=OneWay}">
                     <Label x:Name="white_label" Content="{Binding WhiteTimerStr}" 
-                           VerticalAlignment="Top" HorizontalAlignment="Left"
+                           VerticalAlignment="Center" HorizontalAlignment="Center"
                            FontFamily="Consolas" FontSize="20" Foreground="LightGray">
                         <Label.DataContext>
                             <local:GameData/>
@@ -160,7 +166,7 @@
                             RenderTransformOrigin="0.5,0.5">
                     <!-- label -->
                     <Label x:Name="w_score_label" Content="{Binding WhiteScoreStr}" 
-                           VerticalAlignment="Top" HorizontalAlignment="Left"
+                           VerticalAlignment="Center" HorizontalAlignment="Center"
                            FontFamily="Consolas" FontSize="20" Foreground="LightGray">
                         <Label.DataContext>
                             <local:GameData/>
