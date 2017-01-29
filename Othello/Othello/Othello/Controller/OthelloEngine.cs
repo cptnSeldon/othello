@@ -371,6 +371,9 @@ namespace Othello
 
         #region MENU
         /* SAVE TO JSON FILE */
+        /* Uses the Json.NET packet. It has been chosen over Serialization because we can't 
+           serialize a 2d array of enum.
+        */
         public void Save(string filePath)
         {
             JObject playersObject = new JObject();
@@ -456,6 +459,13 @@ namespace Othello
             return possibleMoves.ContainsKey(tupleToString(column, line));
         }
 
+        /// <summary>
+        /// Not used yet. Will be to implemented for the alphabeta IA.
+        /// </summary>
+        /// <param name="column"></param>
+        /// <param name="line"></param>
+        /// <param name="isWhite"></param>
+        /// <returns></returns>
         public bool isPlayable(int column, int line, bool isWhite)
         {
             throw new NotImplementedException();
@@ -463,6 +473,14 @@ namespace Othello
         #endregion
 
         #region STRING
+        /// <summary>
+        /// Convert a tuple column, line to a String concatenation.
+        /// This is used for the Dictionnary key. It has intialy been design to use 
+        /// an array as the key, but an array isn't hashable.
+        /// Tests with a Point key hasn't been successful.
+        /// </summary>
+        /// <param name="tuple"></param>
+        /// <returns></returns>
         private String tupleToString(Tuple<int, int> tuple)
         {
             return tupleToString(tuple.Item1, tuple.Item2);
