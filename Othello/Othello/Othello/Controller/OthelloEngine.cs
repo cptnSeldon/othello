@@ -101,7 +101,6 @@ namespace Othello
             }
             //possible move history step 2
             nextPossibleMoves = possibleMoves.Count;
-            Console.WriteLine("Moves : \nold : {0}\nnew : {1}", oldTotalPossibleMoves, nextPossibleMoves);
         }
 
         /* 1.2 CHECK MOVE'S VALIDITY */
@@ -214,31 +213,22 @@ namespace Othello
                 //go to 1.
                 ComputePossibleMoves();
 
-                //Console test
-                Console.WriteLine("Black Timer : {0}", data.BlackTimerStr);
-                Console.WriteLine("White Timer : {0}", data.WhiteTimerStr);
-                Console.WriteLine("Black Score : {0}", data.BlackScoreStr);
-                Console.WriteLine("White Score : {0}", data.WhiteScoreStr);
-
                 // If there's no playable move for the player, we switch again
                 if (possibleMoves.Count == 0)
                 {
                     hasSkipped = true;
                     GameStateChange();
                     ComputePossibleMoves();
-                    Console.WriteLine("Pas de coups possibles, deux fois le même joueur");
                 }
 
                 if (nextPossibleMoves == 0 && oldTotalPossibleMoves == 0)
                 {
                     currentGameState = GameState.GAME_END;
-                    Console.WriteLine("Fin du jeu");
                     TimerManager();
                 }
 
                 return true;
             }
-            Console.WriteLine($"can't make the move : {column}:{line}");
             return false;
         }
 
@@ -275,9 +265,6 @@ namespace Othello
         /* 3.2 GAME STATE CHANGE */
         public void GameStateChange()
         {
-
-            Console.WriteLine("Current game state {0}", currentGameState);
-            Console.WriteLine("Total : {0} ", data.TotalBlack + data.TotalWhite);
             ChangePlayer();
             TimerManager();
 
