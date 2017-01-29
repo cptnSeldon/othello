@@ -29,6 +29,9 @@ namespace Othello
         public DiscView()
         {
             InitializeComponent();
+
+            this.MouseEnter += DiscView_MouseEnter;
+            this.MouseLeave += DiscView_MouseLeave;
         }
 
         /* SET DISC'S STATE */
@@ -50,10 +53,19 @@ namespace Othello
                     Content = Resources["p_white"] as Image;
                     break;
             }
+
+            //
             this.currentState = currentState;
-            Visibility = currentState == BoardState.HIDDEN ? Visibility.Hidden : Visibility.Visible;
+            //not visible
             IsEnabled = currentState == BoardState.PLAYABLE_BLACK || currentState == BoardState.PLAYABLE_WHITE;
-            
+            if (this.currentState == BoardState.PLAYABLE_BLACK || this.currentState == BoardState.PLAYABLE_WHITE)
+            {
+                Opacity = 0;
+            }
+            //visible
+            Visibility = currentState == BoardState.HIDDEN ? Visibility.Hidden : Visibility.Visible;
+
+
         }
 
         /* MOUSE CLICK EVENT */
@@ -61,6 +73,25 @@ namespace Othello
         {
             this.MouseDown += eventHandler;
         }
+
+        /* MOUSE ENTER */
+        private void DiscView_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (currentState == BoardState.PLAYABLE_BLACK || currentState == BoardState.PLAYABLE_WHITE)
+            {
+                Opacity = 100;
+            }
+        }
+
+        /* MOUSE LEAVE */
+        private void DiscView_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (currentState == BoardState.PLAYABLE_BLACK || currentState == BoardState.PLAYABLE_WHITE)
+            {
+                Opacity = 0;
+            }
+        }
+
         #endregion
     }
 }

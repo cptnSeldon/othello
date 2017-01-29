@@ -26,6 +26,7 @@ namespace Othello
         public GameData data { private set; get; }
         int oldTotalPossibleMoves;
         int nextPossibleMoves;
+        bool hasSkipped;
         
         private Stack<int[,]> history;
         // clé: string représentant un mouvement, exemple : "07"
@@ -47,6 +48,7 @@ namespace Othello
         {
             /** DATA INITIALIZATION */
             data = new GameData();
+            hasSkipped = false;
             currentGameState = GameState.INIT;
             currentPlayer = BoardState.PLACED_BLACK;
             TimerManager();
@@ -220,9 +222,11 @@ namespace Othello
                 // If there's no playable move for the player, we switch again
                 if (possibleMoves.Count == 0)
                 {
+                    hasSkipped = true;
                     GameStateChange();
                     ComputePossibleMoves();
                     Console.WriteLine("Pas de coups possibles, deux fois le même joueur");
+                    hasSkipped = false;
                 }
 
                 if (nextPossibleMoves == 0 && oldTotalPossibleMoves == 0)
@@ -320,6 +324,11 @@ namespace Othello
         public GameState GetCurrentGameState()
         {
             return currentGameState;
+        }
+
+        public bool HasSkipped()
+        {
+            return hasSkipped;
         }
 
         #region SCORE & SIDE DISCS MANAGEMENT

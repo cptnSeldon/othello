@@ -65,6 +65,7 @@ namespace Othello
         #endregion
 
         #region CUSTOM METHODS
+        bool HasSkipped();
         BoardState[,] getGameState();
         int getTotalBlack();
         int getTotalWhite();

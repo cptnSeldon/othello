@@ -164,6 +164,14 @@ namespace Othello
         {
             engine.playMove(Grid.GetRow((DiscView)sender), Grid.GetColumn((DiscView)sender), true);
             UpdateBoard(engine.getGameState());
+
+            //skip management
+            if (engine.HasSkipped() == true)
+            {
+                MessageBox.Show("No move left! The player's turn is been skipped.", "Skip", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+
+            //game end management
             if (engine.GetCurrentGameState() == GameState.GAME_END)
             {
                 string messageToShow;
@@ -186,6 +194,7 @@ namespace Othello
         /* MENU 1 : EXIT */
         private void AppExit_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("The program will now shut down.", "Quit", MessageBoxButton.OK, MessageBoxImage.Information);
             Application.Current.Shutdown();
         }
         /* MENU 2 : SAVE GAME */
@@ -239,7 +248,7 @@ namespace Othello
                 "Have fun!\n\n\n" +
                 "Designed and implemented by Julia Németh and Axel Roy.\n"+
                 "HE-ARC, 3dlm-ab, January 2017",
-                "Quick hello from the dev's"
+                "Quick hello from the dev's", MessageBoxButton.OK, MessageBoxImage.Information
                 );
         }
         #endregion
