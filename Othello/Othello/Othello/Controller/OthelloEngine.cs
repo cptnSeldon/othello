@@ -190,6 +190,7 @@ namespace Othello
         /* 2. DISC'S PLACEMENT ON THE BOARD : binded to click */
         public bool playMove(int column, int line, bool isWhite)
         {
+            hasSkipped = false;
             //update board status if valid move
             if (IsPlayable(column, line))
             {
@@ -226,7 +227,6 @@ namespace Othello
                     GameStateChange();
                     ComputePossibleMoves();
                     Console.WriteLine("Pas de coups possibles, deux fois le même joueur");
-                    hasSkipped = false;
                 }
 
                 if (nextPossibleMoves == 0 && oldTotalPossibleMoves == 0)
