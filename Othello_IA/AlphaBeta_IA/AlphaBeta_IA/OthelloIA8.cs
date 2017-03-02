@@ -17,14 +17,16 @@ namespace OthelloIA8
        
         private Data board;
 
+        #endregion
+
+        #region Constructors
         public AlphaBetaBoard()
         {
             board = new Data(false);
         }
-
         #endregion
 
-        #region public methods
+        #region public_methods
         public Tuple<int, int> GetNextMove(int[,] game, int level, bool whiteTurn)
         {
             this.board = new Data(whiteTurn, game);
@@ -72,12 +74,12 @@ namespace OthelloIA8
         #region score
         public int GetBlackScore()
         {
-            return 0;
+            return 32;
         }
 
         public int GetWhiteScore()
         {
-            return 0;
+            return 32;
         }
         #endregion
     }
