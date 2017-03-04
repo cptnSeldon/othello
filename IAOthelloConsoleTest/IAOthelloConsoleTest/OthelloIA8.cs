@@ -80,6 +80,7 @@ namespace IAOthelloConsoleTest
             if (IsTerminated(node) || depth == 0)
                 return new Tuple<int, Tuple<int, int>>(HeuristicEvaluation(node), new Tuple<int, int>(-1,-1));
 
+
             //IF MAXIMIZING PLAYER == TRUE : nodes -> next board state right after my move
             if (isPlayerToMaximize)
             {
@@ -99,6 +100,16 @@ namespace IAOthelloConsoleTest
 
                         if (depth == DEPTH)
                             moveToPlay = computedMove.Item2;
+
+                        
+                        if (depth == DEPTH && moveToPlay.Equals(new Tuple<int, int>(-1, -1)))
+                        {
+                            Dictionary<string, List<Tuple<int, int>>> onlyMove = node.getPossibleMoves();
+
+                            string key = node.getPossibleMoves().Keys.First();
+                            moveToPlay = node.stringToTuple(key);
+                        }
+                            
                     }
 
                     // value = Math.Max(value, computedMove.Item1);
@@ -132,6 +143,16 @@ namespace IAOthelloConsoleTest
 
                         if (depth == DEPTH)
                             moveToPlay = computedMove.Item2;
+
+                        // Never used
+                        if (depth == DEPTH && moveToPlay.Equals(new Tuple<int, int>(-1, -1)))
+                        {
+                            Dictionary<string, List<Tuple<int, int>>> onlyMove = node.getPossibleMoves();
+
+                            string key = node.getPossibleMoves().Keys.First();
+                            moveToPlay = node.stringToTuple(key);
+                        }
+
                     }
 
                     alpha = Math.Min(alpha, value);

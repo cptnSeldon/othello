@@ -62,7 +62,7 @@ namespace OthelloIA8
 
         public bool IsTerminated(Data node)
         {
-            Dictionary<String, List<Tuple<int, int>>> possibleMoves = board.getPossibleMoves();
+            Dictionary<String, List<Tuple<int, int>>> possibleMoves = node.getPossibleMoves();
 
             return possibleMoves.Count() == 0;
         }
@@ -73,8 +73,9 @@ namespace OthelloIA8
          *  */
         public Tuple<int, Tuple<int, int>> Alphabot(Data node, int depth, int alpha, int beta, bool isPlayerToMaximize)
         {
-            if (depth == 0 || IsTerminated(node))
-                return new Tuple<int, Tuple<int, int>>(HeuristicEvaluation(node), node.LastPlayedMove());
+            if (IsTerminated(node) || depth == 0)
+                return new Tuple<int, Tuple<int, int>>(HeuristicEvaluation(node), new Tuple<int, int>(-1, -1));
+
 
             //IF MAXIMIZING PLAYER == TRUE : nodes -> next board state right after my move
             if (isPlayerToMaximize)
@@ -95,6 +96,16 @@ namespace OthelloIA8
 
                         if (depth == DEPTH)
                             moveToPlay = computedMove.Item2;
+
+
+                        if (depth == DEPTH && moveToPlay.Equals(new Tuple<int, int>(-1, -1)))
+                        {
+                            Dictionary<string, List<Tuple<int, int>>> onlyMove = node.getPossibleMoves();
+
+                            string key = node.getPossibleMoves().Keys.First();
+                            moveToPlay = node.stringToTuple(key);
+                        }
+
                     }
 
                     // value = Math.Max(value, computedMove.Item1);
@@ -106,7 +117,6 @@ namespace OthelloIA8
                         break; // beta cutoff
                     }
                 }
-
 
                 return new Tuple<int, Tuple<int, int>>(value, moveToPlay);
             }
@@ -129,6 +139,16 @@ namespace OthelloIA8
 
                         if (depth == DEPTH)
                             moveToPlay = computedMove.Item2;
+
+                        // Never used
+                        if (depth == DEPTH && moveToPlay.Equals(new Tuple<int, int>(-1, -1)))
+                        {
+                            Dictionary<string, List<Tuple<int, int>>> onlyMove = node.getPossibleMoves();
+
+                            string key = node.getPossibleMoves().Keys.First();
+                            moveToPlay = node.stringToTuple(key);
+                        }
+
                     }
 
                     alpha = Math.Min(alpha, value);
