@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 /// <summary>
 /// Project references :
-/// 
-/// 
+///
+///
 /// </summary>
 namespace OthelloIA8
 {
     public class AlphaBetaBoard : IPlayable.IPlayable
     {
         #region attributes
-       
+
         private Data board;
 
         #endregion
@@ -46,9 +46,9 @@ namespace OthelloIA8
             return false;
         }
 
-        /** 
+        /**
          * -> must have : next moves list -> retrieve data if move is played -> NODES
-         * -> 
+         * ->
          *  */
         public int Alphabot(Data node, int depth, int alpha, int beta, bool isPlayerToMaximize)
         {
@@ -62,7 +62,8 @@ namespace OthelloIA8
                 int value = -100000;
                 foreach (Data child in GetChildNodes(node))
                 {
-                    value = Math.Max(value, Alphabot(child, depth - 1, alpha, beta, false));
+                    // TODO : Vérifier si c'est bien true comme dernier paramètre
+                    value = Math.Max(value, Alphabot(child, depth - 1, alpha, beta, true));
                     alpha = Math.Max(alpha, value);
                     if (beta <= alpha)
                         break; // beta cutoff
