@@ -203,6 +203,7 @@ public class Data
         }
         else
         {
+            this.lastPlayedMove = new Tuple<int, int>(-1, -1);
             return false;
         }
     }

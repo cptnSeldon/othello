@@ -26,7 +26,7 @@ namespace IAOthelloConsoleTest
 
                 isWhite = !isWhite;
 
-                stop = move != new Tuple<int, int>(-1, -1);
+                stop = move == new Tuple<int, int>(-1, -1);
             }
 
             Console.WriteLine("Je suis coincé");

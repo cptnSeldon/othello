@@ -66,7 +66,7 @@ namespace IAOthelloConsoleTest
 
         public bool IsTerminated(Data node)
         {
-            Dictionary<String, List<Tuple<int, int>>> possibleMoves = board.getPossibleMoves();
+            Dictionary<String, List<Tuple<int, int>>> possibleMoves = node.getPossibleMoves();
 
             return possibleMoves.Count() == 0;
         }
@@ -77,8 +77,8 @@ namespace IAOthelloConsoleTest
          *  */
         public Tuple<int, Tuple<int, int>> Alphabot(Data node, int depth, int alpha, int beta, bool isPlayerToMaximize)
         {
-            if (depth == 0 || IsTerminated(node))
-                return new Tuple<int, Tuple<int, int>>(HeuristicEvaluation(node), node.LastPlayedMove());
+            if (IsTerminated(node) || depth == 0)
+                return new Tuple<int, Tuple<int, int>>(HeuristicEvaluation(node), new Tuple<int, int>(-1,-1));
 
             //IF MAXIMIZING PLAYER == TRUE : nodes -> next board state right after my move
             if (isPlayerToMaximize)
