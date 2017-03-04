@@ -286,6 +286,23 @@ public class Data
         return this.possibleMoves;
     }
 
+    public int getScoreHeuristic(bool isWhite)
+    {
+        int player = isWhite ? 0 : 1;
+        int[] scores = { 0, 0 };
+        for (int y = 0; y < BOARDSIZE; y++)
+        {
+            for (int x = 0; x < BOARDSIZE; x++)
+            {
+                if (board[x, y] != -1)
+                    scores[board[x, y]] += WEIGHT_MATRIX[x, y];
+            }
+        }
+
+        scores[player] = scores[player] - scores[1 - player];
+        return scores[player];
+    }
+    
     public int getScore(bool isWhite)
     {
         int score = 0;
@@ -296,30 +313,11 @@ public class Data
             for (int j = 0; j < BOARDSIZE; j++)
             {
                 if (board[i, j] == colorToFound)
-                    score += WEIGHT_MATRIX[i, j];
+                    score += 1;
             }
 
         return score;
     }
-
-
-    /*
-    private int score(int[,] board, int player)
-    {
-        int[] scores = { 0, 0 };
-        for (int y = 0; y < SIZE_GRID; y++)
-        {
-            for (int x = 0; x < SIZE_GRID; x++)
-            {
-                if (board[x, y] != -1)
-                    scores[board[x, y]] += WEIGHT_MATRIX[x, y];
-            }
-        }
-        return scores[player];
-        // mon score moins le score de l'autre
-        //return scores[player] - scores[1 - player];
-    }
-    */
 
     public List<Data> GetChildNodes()
     {

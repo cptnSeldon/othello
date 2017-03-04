@@ -37,12 +37,33 @@ namespace IAOthelloConsoleTest
                 else
                     consecutivePass = 0;
 
-                stop = (move.Equals(new Tuple<int, int>(-1, -1)) && consecutivePass == 2);
+                stop = ((move.Equals(new Tuple<int, int>(-1, -1)) && consecutivePass == 2) || isFinished(initialState));
             }
 
-            Console.WriteLine("Je suis coincé");
+            Console.WriteLine("Partie terminée");
+            Console.WriteLine("O " + initialState.getScore(true));
+            Console.WriteLine("X " + initialState.getScore(false));
             Console.ReadKey();
 
+        }
+
+        private static bool isFinished(Data board)
+        {
+            int i = 0;
+            int j = 0;
+            bool emptyCase = false;
+            while (i < 8 && !emptyCase)
+            {
+                while (j < 8 && !emptyCase)
+                {
+                    emptyCase = board.getBoard()[i, j] == -1;
+                    j++;
+                }
+                j = 0;
+                i++;
+            }
+
+            return !emptyCase;
         }
     }
 }

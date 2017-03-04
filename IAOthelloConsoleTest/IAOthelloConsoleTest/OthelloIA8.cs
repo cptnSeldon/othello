@@ -90,7 +90,7 @@ namespace IAOthelloConsoleTest
                 foreach (Data child in node.GetChildNodes())
                 {
                     // TODO : Vérifier si c'est bien true comme dernier paramètre
-                    Tuple<int, Tuple<int, int>> computedMove = Alphabot(child, depth - 1, alpha, beta, true);
+                    Tuple<int, Tuple<int, int>> computedMove = Alphabot(child, depth - 1, alpha, beta, false);
 
                     if (computedMove.Item1 > value)
                     {
@@ -132,7 +132,7 @@ namespace IAOthelloConsoleTest
 
                 foreach (Data child in node.GetChildNodes())
                 {
-                    Tuple<int, Tuple<int, int>> computedMove = Alphabot(child, depth - 1, alpha, beta, false);
+                    Tuple<int, Tuple<int, int>> computedMove = Alphabot(child, depth - 1, alpha, beta, true);
 
                     if (computedMove.Item1 < value)
                     {
@@ -152,7 +152,6 @@ namespace IAOthelloConsoleTest
                             string key = node.getPossibleMoves().Keys.First();
                             moveToPlay = node.stringToTuple(key);
                         }
-
                     }
 
                     alpha = Math.Min(alpha, value);
@@ -168,17 +167,17 @@ namespace IAOthelloConsoleTest
         //TODO : (players' score delta)
         public int HeuristicEvaluation(Data node)
         {
-            return node.getScore(whiteTurn); ;
+            return node.getScoreHeuristic(whiteTurn); ;
         }
 
         public int GetWhiteScore()
         {
-            return board.getScore(this.whiteTurn);
+            return board.getScore(false);
         }
 
         public int GetBlackScore()
         {
-            return board.getScore(this.whiteTurn);
+            return board.getScore(true);
         }
     }
 }

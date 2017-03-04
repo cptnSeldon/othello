@@ -15,7 +15,6 @@ namespace OthelloIA8
         public const int DEPTH = 5;
         private bool whiteTurn;
 
-
         // clé: string représentant un mouvement, exemple : "07"
         // valeur: liste des tuiles capturées si ce mouvement est effectué
         //private Dictionary<string, List<Tuple<int, int>>> possibleMoves;
@@ -85,8 +84,8 @@ namespace OthelloIA8
 
                 foreach (Data child in node.GetChildNodes())
                 {
-                    // TODO : Vérifier si c'est bien true comme dernier paramètre
-                    Tuple<int, Tuple<int, int>> computedMove = Alphabot(child, depth - 1, alpha, beta, true);
+                    // TODO : Vérifier que le true soit juste
+                    Tuple<int, Tuple<int, int>> computedMove = Alphabot(child, depth - 1, alpha, beta, false);
 
                     if (computedMove.Item1 > value)
                     {
@@ -107,9 +106,6 @@ namespace OthelloIA8
                         }
 
                     }
-
-                    // value = Math.Max(value, computedMove.Item1);
-
                     alpha = Math.Max(alpha, value);
 
                     if (beta <= alpha)
@@ -128,6 +124,7 @@ namespace OthelloIA8
 
                 foreach (Data child in node.GetChildNodes())
                 {
+                    // TODO : Vérifier que le false soit juste
                     Tuple<int, Tuple<int, int>> computedMove = Alphabot(child, depth - 1, alpha, beta, false);
 
                     if (computedMove.Item1 < value)
@@ -164,17 +161,17 @@ namespace OthelloIA8
         //TODO : (players' score delta)
         public int HeuristicEvaluation(Data node)
         {
-            return node.getScore(whiteTurn); ;
+            return node.getScoreHeuristic(whiteTurn); ;
         }
 
         public int GetWhiteScore()
         {
-            return board.getScore(this.whiteTurn);
+            return board.getScore(false);
         }
 
         public int GetBlackScore()
         {
-            return board.getScore(this.whiteTurn);
+            return board.getScore(true);
         }
     }
 }
