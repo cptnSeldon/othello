@@ -34,11 +34,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IPlayable">
-      <HintPath>..\..\IPlayable\IPlayable\bin\Debug\IPlayable.dll</HintPath>
+      <HintPath>..\..\Othello_IA_Fonctionnel\IPlayable.dll</HintPath>
     </Reference>
-    <Reference Include="OthelloIA2, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="OthelloIA8, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\OthelloIA2\OthelloIA2\bin\Debug\OthelloIA2.dll</HintPath>
+      <HintPath>..\..\Othello_IA_Fonctionnel\OthelloIA8\bin\Debug\OthelloIA8.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

@@ -283,6 +283,7 @@ public class Data
 
     public Dictionary<string, List<Tuple<int, int>>> getPossibleMoves()
     {
+        computeMoves(isWhite);
         return this.possibleMoves;
     }
 

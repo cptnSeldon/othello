@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IPlayable">
-      <HintPath>..\..\IPlayable\IPlayable\bin\Debug\IPlayable.dll</HintPath>
+      <HintPath>..\..\Othello_IA_Fonctionnel\IPlayable.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

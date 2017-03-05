@@ -281,6 +281,7 @@ namespace OthelloIA8
 
         public Dictionary<string, List<Tuple<int, int>>> getPossibleMoves()
         {
+            computeMoves(isWhite);
             return this.possibleMoves;
         }
 

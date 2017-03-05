@@ -92,20 +92,20 @@ namespace ConsoleTestDLLOthello
                         player1 = (IPlayable.IPlayable)Activator.CreateInstance(T1[i]);  // requires a default constructore
                 }
                 if (player1 == null)
-                    player1 = new OthelloIA2.OthelloBoard();
-                Type[] T2 = IAPlayers[1].GetTypes();        //or    GetType ("OthelloIA2.OthelloBoard");
+                    player1 = new OthelloIA8.OthelloBoard();
+                Type[] T2 = IAPlayers[1].GetTypes();        //or    GetType ("OthelloIA8.OthelloBoard");
                 for (int i = 0; i < T2.Count(); i++)
                 {
                     if (T2[i].Name.Contains("Board"))       // the IA's class that implements IPlayable must have "Board" in its name. E.g OthelloBoard, TheBoard, MyBoard, ...
                         player2 = (IPlayable.IPlayable)Activator.CreateInstance(T2[i]);  // requires a default constructore
                 }
                 if (player2 == null)
-                    player2 = new OthelloIA2.OthelloBoard();
+                    player2 = new OthelloIA8.OthelloBoard();
             }
             else // b) add a reference to your class assembly in the project and instantiate it 
             {
-                player1 = new OthelloIA2.OthelloBoard();   // for example
-                player2 = new OthelloIA2.OthelloBoard();   // for example
+                player1 = new OthelloIA8.OthelloBoard();   // for example
+                player2 = new OthelloIA8.OthelloBoard();   // for example
             }
             // The Game controller
             serverController = new OthelloLib.Board();             //reference interne au projet
@@ -137,7 +137,7 @@ namespace ConsoleTestDLLOthello
             while (boardCompare(refBoard, board1) && boardCompare(refBoard, board2) && (passCount<2))
             {
                 int totalScore = serverController.GetBlackScore() + serverController.GetWhiteScore();
-                Console.Clear();
+                
                 try
                 {
                     playerMove = activePlayer.GetNextMove(theBoard, 5, whitePlays);
@@ -146,6 +146,7 @@ namespace ConsoleTestDLLOthello
                 {
                     Console.WriteLine(e.Message + "\n\n" + e.StackTrace);
                 }
+                Console.Clear();
                 Console.Write(whitePlays ? "\n[O]" : "\n[X]");
                 // check move validity
                 if ((playerMove.Item1 == PASS) && (playerMove.Item1 == PASS))

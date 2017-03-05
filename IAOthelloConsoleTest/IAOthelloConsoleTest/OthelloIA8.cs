@@ -19,7 +19,6 @@ namespace IAOthelloConsoleTest
         public const int DEPTH = 5;
         private bool whiteTurn;
 
-
         // clé: string représentant un mouvement, exemple : "07"
         // valeur: liste des tuiles capturées si ce mouvement est effectué
         //private Dictionary<string, List<Tuple<int, int>>> possibleMoves;
@@ -51,10 +50,26 @@ namespace IAOthelloConsoleTest
         {
             this.board = new Data(whiteTurn, game);
             this.whiteTurn = whiteTurn;
+            int bestScore = -100000;
+            string bestMove = null;
+            int score = 0;
+            Data tempBoard;
+            foreach (KeyValuePair<string, List<Tuple<int, int>>> entry in board.getPossibleMoves())
+            {
+                tempBoard = new Data(board);
+                Tuple<int, int> coords = tempBoard.stringToTuple(entry.Key);
+                if (tempBoard.playMove(coords.Item1, coords.Item2, whiteTurn))
+                {
+                    score = Alphabot(tempBoard, DEPTH, 0, 0, false);
+                    if (score > bestScore)
+                    {
+                        bestScore = score;
+                        bestMove = entry.Key;
+                    }
+                }
+            }
 
-            Tuple<int, Tuple<int, int>> moveToPlay = Alphabot(board, DEPTH, 0, 0, true);
-
-            return moveToPlay.Item2;
+            return board.stringToTuple(bestMove);
         }
 
         public int[,] GetBoard()
@@ -66,6 +81,7 @@ namespace IAOthelloConsoleTest
 
         public bool IsTerminated(Data node)
         {
+
             Dictionary<String, List<Tuple<int, int>>> possibleMoves = node.getPossibleMoves();
 
             return possibleMoves.Count() == 0;
@@ -75,99 +91,45 @@ namespace IAOthelloConsoleTest
          * -> must have : next moves list -> retrieve data if move is played -> NODES
          * -> 
          *  */
-        public Tuple<int, Tuple<int, int>> Alphabot(Data node, int depth, int alpha, int beta, bool isPlayerToMaximize)
+        public int Alphabot(Data node, int depth, int alpha, int beta, bool isPlayerToMaximize)
         {
-            if (IsTerminated(node) || depth == 0)
-                return new Tuple<int, Tuple<int, int>>(HeuristicEvaluation(node), new Tuple<int, int>(-1,-1));
-
+            //END CONDITION -> tree root or game end
+            if (depth == 0 || IsTerminated(node))
+                return HeuristicEvaluation(node, isPlayerToMaximize);
 
             //IF MAXIMIZING PLAYER == TRUE : nodes -> next board state right after my move
             if (isPlayerToMaximize)
             {
-                int value = int.MinValue;
-                Tuple<int, int> moveToPlay = new Tuple<int, int>(-1, -1);
-
+                int value = -100000;
                 foreach (Data child in node.GetChildNodes())
                 {
-                    // TODO : Vérifier si c'est bien true comme dernier paramètre
-                    Tuple<int, Tuple<int, int>> computedMove = Alphabot(child, depth - 1, alpha, beta, false);
-
-                    if (computedMove.Item1 > value)
-                    {
-                        value = computedMove.Item1;
-                        if (depth == DEPTH -1)
-                            moveToPlay = node.LastPlayedMove();
-
-                        if (depth == DEPTH)
-                            moveToPlay = computedMove.Item2;
-
-                        
-                        if (depth == DEPTH && moveToPlay.Equals(new Tuple<int, int>(-1, -1)))
-                        {
-                            Dictionary<string, List<Tuple<int, int>>> onlyMove = node.getPossibleMoves();
-
-                            string key = node.getPossibleMoves().Keys.First();
-                            moveToPlay = node.stringToTuple(key);
-                        }
-                            
-                    }
-
-                    // value = Math.Max(value, computedMove.Item1);
-
+                    value = Math.Max(value, Alphabot(child, depth - 1, alpha, beta, !isPlayerToMaximize));
                     alpha = Math.Max(alpha, value);
-    
                     if (beta <= alpha)
-                    {
                         break; // beta cutoff
-                    }
                 }
-
-                return new Tuple<int, Tuple<int, int>>(value, moveToPlay);
+                return value;
             }
             //IF MAXIMIZING PLAYER == FALSE
             else
             {
-                int value = int.MaxValue;
-                Tuple<int, int> moveToPlay = new Tuple<int, int>(-1, -1);
-
+                int value = 100000;
                 foreach (Data child in node.GetChildNodes())
                 {
-                    Tuple<int, Tuple<int, int>> computedMove = Alphabot(child, depth - 1, alpha, beta, true);
-
-                    if (computedMove.Item1 < value)
-                    {
-                        value = computedMove.Item1;
-
-                        if (depth == DEPTH -1)
-                            moveToPlay = node.LastPlayedMove();
-
-                        if (depth == DEPTH)
-                            moveToPlay = computedMove.Item2;
-
-                        // Never used
-                        if (depth == DEPTH && moveToPlay.Equals(new Tuple<int, int>(-1, -1)))
-                        {
-                            Dictionary<string, List<Tuple<int, int>>> onlyMove = node.getPossibleMoves();
-
-                            string key = node.getPossibleMoves().Keys.First();
-                            moveToPlay = node.stringToTuple(key);
-                        }
-                    }
-
+                    value = Math.Min(value, Alphabot(child, depth - 1, alpha, beta, !isPlayerToMaximize));
                     alpha = Math.Min(alpha, value);
-
                     if (beta <= alpha)
                         break; // aplha cutoff
                 }
-
-                return new Tuple<int, Tuple<int, int>>(value, moveToPlay);
+                return value;
             }
+
         }
 
         //TODO : (players' score delta)
-        public int HeuristicEvaluation(Data node)
+        public int HeuristicEvaluation(Data node, bool isWhiteTurn)
         {
-            return node.getScoreHeuristic(whiteTurn); ;
+            return node.getScoreHeuristic(isWhiteTurn);
         }
 
         public int GetWhiteScore()
